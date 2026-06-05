@@ -31,7 +31,7 @@
             overflow: hidden;
         }
 
-        /* --- TELA DE CARREGAMENTO COM ANIMAÇÃO GLITCH --- */
+        /* --- TELA DE CARREGAMENTO COM ANIMAÇÃO GLITCH MAIS LENTA E EXPANSIVA --- */
         #loader {
             position: fixed;
             top: 0;
@@ -46,7 +46,6 @@
             transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s;
         }
 
-        /* Base da Logo baseada na Página Principal */
         .logo-loader-glitch {
             font-family: 'Oswald', sans-serif;
             font-size: clamp(3.5rem, 12vw, 6rem);
@@ -57,10 +56,10 @@
             line-height: 0.9;
             text-shadow: 4px 4px 0px var(--purple);
             position: relative;
-            animation: mainPulse 3s infinite ease-in-out;
+            animation: mainPulse 4s infinite ease-in-out;
         }
 
-        /* Camadas clonadas para criar o efeito de estática/glitch cortado */
+        /* Camadas clones para o efeito de estática */
         .logo-loader-glitch::before,
         .logo-loader-glitch::after {
             content: 'INFORTIX';
@@ -72,48 +71,48 @@
             background: var(--black);
         }
 
-        /* Linha de glitch roxa */
+        /* Linha de glitch roxa (Aumentei o deslocamento para '12px' e joguei o tempo para '2.5s') */
         .logo-loader-glitch::before {
-            left: 3px;
-            text-shadow: -2px 0 var(--purple), 0 2px var(--purple);
+            left: 12px;
+            text-shadow: -4px 0 var(--purple), 0 3px var(--purple);
             clip: rect(44px, 450px, 56px, 0);
-            animation: glitchAnim 1.5s infinite linear alternate-reverse;
+            animation: glitchAnim 2.5s infinite linear alternate-reverse;
         }
 
-        /* Linha de glitch branca/cinza */
+        /* Linha de glitch branca (Aumentei o deslocamento para '-12px' e joguei o tempo para '2s') */
         .logo-loader-glitch::after {
-            left: -3px;
-            text-shadow: -2px 0 rgba(207,207,207,0.7), 2px 2px var(--purple);
+            left: -12px;
+            text-shadow: -3px 0 rgba(207,207,207,0.7), 4px 3px var(--purple);
             clip: rect(85px, 450px, 140px, 0);
-            animation: glitchAnim2 1s infinite linear alternate-reverse;
+            animation: glitchAnim2 2s infinite linear alternate-reverse;
         }
 
         @keyframes mainPulse {
             0%, 100% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.02); filter: brightness(1.15); }
+            50% { transform: scale(1.01); filter: brightness(1.1); }
         }
 
-        /* Definição dos cortes rápidos na palavra */
+        /* Ajustados os cortes horizontais e inclinações para agirem de forma mais cadenciada */
         @keyframes glitchAnim {
-            0% { clip: rect(15px, 9999px, 66px, 0); transform: skew(0.3deg); }
-            10% { clip: rect(34px, 9999px, 55px, 0); transform: skew(-0.5deg); }
-            20% { clip: rect(70px, 9999px, 105px, 0); transform: skew(0.8deg); }
-            30% { clip: rect(12px, 9999px, 85px, 0); transform: skew(-0.2deg); }
-            40% { clip: rect(94px, 9999px, 150px, 0); transform: skew(0.4deg); }
-            50% { clip: rect(25px, 9999px, 40px, 0); transform: skew(-0.8deg); }
-            60% { clip: rect(102px, 9999px, 115px, 0); transform: skew(0.2deg); }
-            70% { clip: rect(9px, 9999px, 50px, 0); transform: skew(-0.4deg); }
-            80% { clip: rect(60px, 9999px, 90px, 0); transform: skew(0.6deg); }
-            90% { clip: rect(120px, 9999px, 135px, 0); transform: skew(-0.1deg); }
+            0% { clip: rect(15px, 9999px, 66px, 0); transform: skew(1deg); }
+            10% { clip: rect(34px, 9999px, 55px, 0); transform: skew(-1.5deg) translateX(-5px); }
+            20% { clip: rect(70px, 9999px, 105px, 0); transform: skew(2deg); }
+            30% { clip: rect(12px, 9999px, 85px, 0); transform: skew(-0.5deg) translateX(8px); }
+            40% { clip: rect(94px, 9999px, 150px, 0); transform: skew(1.2deg); }
+            50% { clip: rect(25px, 9999px, 40px, 0); transform: skew(-2deg) translateX(-10px); }
+            60% { clip: rect(102px, 9999px, 115px, 0); transform: skew(0.5deg); }
+            70% { clip: rect(9px, 9999px, 50px, 0); transform: skew(-1.2deg) translateX(5px); }
+            80% { clip: rect(60px, 9999px, 90px, 0); transform: skew(1.8deg); }
+            90% { clip: rect(120px, 9999px, 135px, 0); transform: skew(-0.3deg); }
             100% { clip: rect(40px, 9999px, 75px, 0); transform: skew(0deg); }
         }
 
         @keyframes glitchAnim2 {
-            0% { clip: rect(70px, 9999px, 115px, 0); transform: translateX(-2px); }
-            20% { clip: rect(15px, 9999px, 45px, 0); transform: translateX(2px); }
-            40% { clip: rect(85px, 9999px, 130px, 0); transform: translateX(-1px); }
-            60% { clip: rect(30px, 9999px, 75px, 0); transform: translateX(1px); }
-            80% { clip: rect(100px, 9999px, 145px, 0); transform: translateX(-2px); }
+            0% { clip: rect(70px, 9999px, 115px, 0); transform: translateX(-8px) skew(-1deg); }
+            20% { clip: rect(15px, 9999px, 45px, 0); transform: translateX(8px) skew(1deg); }
+            40% { clip: rect(85px, 9999px, 130px, 0); transform: translateX(-4px); }
+            60% { clip: rect(30px, 9999px, 75px, 0); transform: translateX(6px) skew(-2deg); }
+            80% { clip: rect(100px, 9999px, 145px, 0); transform: translateX(-10px); }
             100% { clip: rect(10px, 9999px, 60px, 0); transform: translateX(0); }
         }
 
@@ -343,7 +342,6 @@
             height: 100vh;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
-            /* Transição de fricção de mola física para deixar o scroll altamente fluido */
             scroll-behavior: smooth; 
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             -webkit-overflow-scrolling: touch;
@@ -354,7 +352,6 @@
             height: 100vh;
             min-height: -webkit-fill-available;
             scroll-snap-align: start;
-            /* Garante paradas macias no snap */
             scroll-snap-stop: always;
             position: relative;
             display: flex;
@@ -782,16 +779,19 @@
     <div class="bg-lines"></div>
     <div class="scroll-indicator" id="scrollInd">Deslize para baixo ↓</div>
 
+    <!-- TELA DE CARREGAMENTO AJUSTADA: MAIS DEVAGAR E EXPANSIVA -->
     <div id="loader">
         <div class="logo-loader-glitch">INFORTIX</div>
     </div>
 
+    <!-- BOTÃO DE HAMBÚRGUER FIXO -->
     <div class="menu-toggle" id="openMenu">
         <span></span>
         <span></span>
         <span></span>
     </div>
 
+    <!-- SEGUNDA ABA / OVERLAY LATERAL -->
     <div class="nav-overlay" id="navOverlay">
         <div class="overlay-left">
             <div class="menu-logo-badge">INFORTIX</div>
@@ -829,8 +829,10 @@
         </div>
     </div>
 
+    <!-- CONTAINER DE ROLAGEM PRINCIPAL -->
     <div class="scroll-container" id="mainScrollContainer">
         
+        <!-- SEÇÃO 1: HERO -->
         <section class="hero-section">
             <div>
                 <h1 class="gta-title">INFORTIX</h1>
@@ -838,6 +840,7 @@
             </div>
         </section>
 
+        <!-- SEÇÃO 2: MATTEO -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -856,6 +859,7 @@
             </div>
         </section>
 
+        <!-- SEÇÃO 3: GABRIEL -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -874,6 +878,7 @@
             </div>
         </section>
 
+        <!-- SEÇÃO 4: MATHEUS -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -892,6 +897,7 @@
             </div>
         </section>
 
+        <!-- SEÇÃO 5: LOJA INTEGRADA -->
         <section id="shopSection">
             <div class="shop-section-container">
                 <div class="shop-header">
@@ -950,14 +956,13 @@
     </div>
 
     <script>
-        // Ocultar loader original com fade seguro
+        // Timeout ligeiramente maior (2.8s) para aproveitar a cadência da animação
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
-            }, 2200); // Um pouco mais de tempo para a animação do glitch rodar completa
+            }, 2800); 
         });
 
-        // Menu Lateral
         const openMenu = document.getElementById('openMenu');
         const closeMenu = document.getElementById('closeMenu');
         const navOverlay = document.getElementById('navOverlay');
@@ -965,7 +970,6 @@
         openMenu.addEventListener('click', () => navOverlay.classList.add('open'));
         closeMenu.addEventListener('click', () => navOverlay.classList.remove('open'));
 
-        // Abas
         const tabLogin = document.getElementById('tabLogin');
         const tabCadastro = document.getElementById('tabCadastro');
         const authTitle = document.getElementById('authTitle');
@@ -985,7 +989,6 @@
             mainAuthBtn.innerText = "Criar Nova Conta";
         });
 
-        // Link Rolar para Loja
         const goToShopBtn = document.getElementById('goToShopBtn');
         const shopSection = document.getElementById('shopSection');
         const mainScrollContainer = document.getElementById('mainScrollContainer');
@@ -996,7 +999,6 @@
             shopSection.scrollIntoView({ behavior: 'smooth' });
         });
 
-        // Controle do indicador de rolagem
         mainScrollContainer.addEventListener('scroll', () => {
             const indicator = document.getElementById('scrollInd');
             if (mainScrollContainer.scrollTop + window.innerHeight >= mainScrollContainer.scrollHeight - 50) {
