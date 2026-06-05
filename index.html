@@ -31,7 +31,7 @@
             overflow: hidden;
         }
 
-        /* --- TELA DE CARREGAMENTO --- */
+        /* --- TELA DE CARREGAMENTO COM ANIMAÇÃO GLITCH --- */
         #loader {
             position: fixed;
             top: 0;
@@ -43,27 +43,78 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.6s ease-in-out, visibility 0.6s;
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s;
         }
 
-        .logo-loader {
+        /* Base da Logo baseada na Página Principal */
+        .logo-loader-glitch {
             font-family: 'Oswald', sans-serif;
-            font-size: clamp(3rem, 10vw, 5rem);
+            font-size: clamp(3.5rem, 12vw, 6rem);
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: -2px;
-            color: var(--black);
-            background-color: var(--white);
-            padding: 10px 40px;
-            border-radius: 18px;
-            box-shadow: 0 0 40px rgba(127, 73, 180, 0.4);
-            animation: pulseLogo 2s infinite ease-in-out;
+            color: var(--white);
+            line-height: 0.9;
+            text-shadow: 4px 4px 0px var(--purple);
+            position: relative;
+            animation: mainPulse 3s infinite ease-in-out;
         }
 
-        @keyframes pulseLogo {
-            0% { transform: scale(0.98); filter: brightness(0.9); }
-            50% { transform: scale(1.02); filter: brightness(1.2); box-shadow: 0 0 50px rgba(127, 73, 180, 0.7); }
-            100% { transform: scale(0.98); filter: brightness(0.9); }
+        /* Camadas clonadas para criar o efeito de estática/glitch cortado */
+        .logo-loader-glitch::before,
+        .logo-loader-glitch::after {
+            content: 'INFORTIX';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+        }
+
+        /* Linha de glitch roxa */
+        .logo-loader-glitch::before {
+            left: 3px;
+            text-shadow: -2px 0 var(--purple), 0 2px var(--purple);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitchAnim 1.5s infinite linear alternate-reverse;
+        }
+
+        /* Linha de glitch branca/cinza */
+        .logo-loader-glitch::after {
+            left: -3px;
+            text-shadow: -2px 0 rgba(207,207,207,0.7), 2px 2px var(--purple);
+            clip: rect(85px, 450px, 140px, 0);
+            animation: glitchAnim2 1s infinite linear alternate-reverse;
+        }
+
+        @keyframes mainPulse {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.02); filter: brightness(1.15); }
+        }
+
+        /* Definição dos cortes rápidos na palavra */
+        @keyframes glitchAnim {
+            0% { clip: rect(15px, 9999px, 66px, 0); transform: skew(0.3deg); }
+            10% { clip: rect(34px, 9999px, 55px, 0); transform: skew(-0.5deg); }
+            20% { clip: rect(70px, 9999px, 105px, 0); transform: skew(0.8deg); }
+            30% { clip: rect(12px, 9999px, 85px, 0); transform: skew(-0.2deg); }
+            40% { clip: rect(94px, 9999px, 150px, 0); transform: skew(0.4deg); }
+            50% { clip: rect(25px, 9999px, 40px, 0); transform: skew(-0.8deg); }
+            60% { clip: rect(102px, 9999px, 115px, 0); transform: skew(0.2deg); }
+            70% { clip: rect(9px, 9999px, 50px, 0); transform: skew(-0.4deg); }
+            80% { clip: rect(60px, 9999px, 90px, 0); transform: skew(0.6deg); }
+            90% { clip: rect(120px, 9999px, 135px, 0); transform: skew(-0.1deg); }
+            100% { clip: rect(40px, 9999px, 75px, 0); transform: skew(0deg); }
+        }
+
+        @keyframes glitchAnim2 {
+            0% { clip: rect(70px, 9999px, 115px, 0); transform: translateX(-2px); }
+            20% { clip: rect(15px, 9999px, 45px, 0); transform: translateX(2px); }
+            40% { clip: rect(85px, 9999px, 130px, 0); transform: translateX(-1px); }
+            60% { clip: rect(30px, 9999px, 75px, 0); transform: translateX(1px); }
+            80% { clip: rect(100px, 9999px, 145px, 0); transform: translateX(-2px); }
+            100% { clip: rect(10px, 9999px, 60px, 0); transform: translateX(0); }
         }
 
         #loader.hidden {
@@ -114,7 +165,6 @@
             visibility: visible;
         }
 
-        /* Painel Esquerdo */
         .overlay-left {
             flex: 1;
             background: linear-gradient(180deg, #1b3d54 0%, #102433 100%);
@@ -138,7 +188,6 @@
             transform: rotate(-5deg);
         }
 
-        /* Painel Direito */
         .overlay-right {
             flex: 1.2;
             background-color: #0c0d10;
@@ -170,7 +219,6 @@
             background-color: var(--purple);
         }
 
-        /* Abas Superiores */
         .overlay-tabs {
             display: flex;
             gap: 1rem;
@@ -197,7 +245,6 @@
             color: #000;
         }
 
-        /* Área do Formulário de Acesso / Menu de Links */
         .auth-container {
             display: flex;
             flex-direction: column;
@@ -267,7 +314,6 @@
             margin-top: 0.5rem;
         }
 
-        /* Link Direto para a Loja dentro do Menu */
         .shop-nav-link {
             margin-top: 2rem;
             padding: 15px 20px;
@@ -291,13 +337,15 @@
             color: var(--white);
         }
 
-        /* --- NAVEGAÇÃO POR SCROLL SNAP --- */
+        /* --- CONTAINER DE NAVEGAÇÃO SUAVE POR SCROLL SNAP --- */
         .scroll-container {
             width: 100%;
             height: 100vh;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
+            /* Transição de fricção de mola física para deixar o scroll altamente fluido */
+            scroll-behavior: smooth; 
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             -webkit-overflow-scrolling: touch;
         }
 
@@ -306,6 +354,8 @@
             height: 100vh;
             min-height: -webkit-fill-available;
             scroll-snap-align: start;
+            /* Garante paradas macias no snap */
+            scroll-snap-stop: always;
             position: relative;
             display: flex;
             align-items: center;
@@ -340,7 +390,7 @@
             font-weight: 700;
         }
 
-        /* --- SEÇÃO DOS SERVIÇOS / MEMBROS --- */
+        /* --- SEÇÃO DOS SERVIÇOS --- */
         .service-section {
             display: flex;
             align-items: center;
@@ -439,7 +489,7 @@
             filter: contrast(1.1) brightness(0.9);
         }
 
-        /* --- SEÇÃO DA LOJA INTEGRADA (ESTILO MERCH ROCKSTAR) --- */
+        /* --- SEÇÃO DA LOJA INTEGRADA --- */
         .shop-section-container {
             width: 100%;
             max-width: 1200px;
@@ -483,7 +533,6 @@
             flex: 1;
         }
 
-        /* Custom Scrollbar para a grade de produtos */
         .shop-grid::-webkit-scrollbar {
             width: 6px;
         }
@@ -526,7 +575,6 @@
             border-bottom: 1px solid rgba(207,207,207,0.1);
         }
 
-        /* Tag de Categoria Estilo GTA */
         .product-badge {
             position: absolute;
             top: 10px;
@@ -708,7 +756,6 @@
                 padding-top: 0.8rem;
             }
 
-            /* Loja Mobile */
             .shop-section-container {
                 height: 90vh;
                 padding-bottom: 2rem;
@@ -735,19 +782,16 @@
     <div class="bg-lines"></div>
     <div class="scroll-indicator" id="scrollInd">Deslize para baixo ↓</div>
 
-    <!-- TELA DE CARREGAMENTO -->
     <div id="loader">
-        <div class="logo-loader">INFORTIX</div>
+        <div class="logo-loader-glitch">INFORTIX</div>
     </div>
 
-    <!-- BOTÃO DE HAMBÚRGUER FIXO -->
     <div class="menu-toggle" id="openMenu">
         <span></span>
         <span></span>
         <span></span>
     </div>
 
-    <!-- SEGUNDA ABA / OVERLAY LATERAL -->
     <div class="nav-overlay" id="navOverlay">
         <div class="overlay-left">
             <div class="menu-logo-badge">INFORTIX</div>
@@ -777,7 +821,6 @@
                     Logar com o Google
                 </button>
 
-                <!-- ÍCONE/LINK ADICIONADO PARA ACESSAR A LOJA VIA MENU (ESTILO ROCKSTAR LAUNCHER) -->
                 <a class="shop-nav-link" id="goToShopBtn">
                     <span>Acessar Loja Oficial</span>
                     <span>→</span>
@@ -786,10 +829,8 @@
         </div>
     </div>
 
-    <!-- CONTAINER DE ROLAGEM PRINCIPAL -->
     <div class="scroll-container" id="mainScrollContainer">
         
-        <!-- SEÇÃO 1: HERO -->
         <section class="hero-section">
             <div>
                 <h1 class="gta-title">INFORTIX</h1>
@@ -797,7 +838,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 2: MATTEO -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -816,7 +856,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 3: GABRIEL -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -835,7 +874,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 4: MATHEUS -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -854,7 +892,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 5: NOVA PÁGINA DA LOJA INTEGRADA (ESTILO MERCHANDISE DA ROCKSTAR CO.) -->
         <section id="shopSection">
             <div class="shop-section-container">
                 <div class="shop-header">
@@ -863,7 +900,6 @@
                 </div>
                 
                 <div class="shop-grid">
-                    <!-- Produto 1 -->
                     <div class="product-card">
                         <div class="product-img-holder">
                             IX-1
@@ -879,7 +915,6 @@
                         </div>
                     </div>
 
-                    <!-- Produto 2 -->
                     <div class="product-card">
                         <div class="product-img-holder">
                             IX-2
@@ -895,7 +930,6 @@
                         </div>
                     </div>
 
-                    <!-- Produto 3 -->
                     <div class="product-card">
                         <div class="product-img-holder">
                             IX-3
@@ -916,14 +950,14 @@
     </div>
 
     <script>
-        // Loader inicial
+        // Ocultar loader original com fade seguro
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
-            }, 1500);
+            }, 2200); // Um pouco mais de tempo para a animação do glitch rodar completa
         });
 
-        // Controle do Menu Lateral
+        // Menu Lateral
         const openMenu = document.getElementById('openMenu');
         const closeMenu = document.getElementById('closeMenu');
         const navOverlay = document.getElementById('navOverlay');
@@ -931,7 +965,7 @@
         openMenu.addEventListener('click', () => navOverlay.classList.add('open'));
         closeMenu.addEventListener('click', () => navOverlay.classList.remove('open'));
 
-        // Alternador das Abas (Login / Cadastro)
+        // Abas
         const tabLogin = document.getElementById('tabLogin');
         const tabCadastro = document.getElementById('tabCadastro');
         const authTitle = document.getElementById('authTitle');
@@ -951,18 +985,18 @@
             mainAuthBtn.innerText = "Criar Nova Conta";
         });
 
-        // Lógica do Link para rolar direto até a Loja ao clicar no botão do Menu
+        // Link Rolar para Loja
         const goToShopBtn = document.getElementById('goToShopBtn');
         const shopSection = document.getElementById('shopSection');
         const mainScrollContainer = document.getElementById('mainScrollContainer');
 
         goToShopBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            navOverlay.classList.remove('open'); // Fecha o menu lateral
-            shopSection.scrollIntoView({ behavior: 'smooth' }); // Faz o scroll suave até a seção da loja
+            navOverlay.classList.remove('open');
+            shopSection.scrollIntoView({ behavior: 'smooth' });
         });
 
-        // Oculta o indicador de rolagem quando o usuário chega na loja (última seção)
+        // Controle do indicador de rolagem
         mainScrollContainer.addEventListener('scroll', () => {
             const indicator = document.getElementById('scrollInd');
             if (mainScrollContainer.scrollTop + window.innerHeight >= mainScrollContainer.scrollHeight - 50) {
