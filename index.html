@@ -31,7 +31,7 @@
             overflow: hidden;
         }
 
-        /* --- TELA DE CARREGAMENTO COM ANIMAÇÃO GLITCH MAIS LENTA E EXPANSIVA --- */
+        /* --- TELA DE CARREGAMENTO --- */
         #loader {
             position: fixed;
             top: 0;
@@ -59,7 +59,6 @@
             animation: mainPulse 4s infinite ease-in-out;
         }
 
-        /* Camadas clones para o efeito de estática */
         .logo-loader-glitch::before,
         .logo-loader-glitch::after {
             content: 'INFORTIX';
@@ -71,7 +70,6 @@
             background: var(--black);
         }
 
-        /* Linha de glitch roxa (Aumentei o deslocamento para '12px' e joguei o tempo para '2.5s') */
         .logo-loader-glitch::before {
             left: 12px;
             text-shadow: -4px 0 var(--purple), 0 3px var(--purple);
@@ -79,7 +77,6 @@
             animation: glitchAnim 2.5s infinite linear alternate-reverse;
         }
 
-        /* Linha de glitch branca (Aumentei o deslocamento para '-12px' e joguei o tempo para '2s') */
         .logo-loader-glitch::after {
             left: -12px;
             text-shadow: -3px 0 rgba(207,207,207,0.7), 4px 3px var(--purple);
@@ -92,7 +89,6 @@
             50% { transform: scale(1.01); filter: brightness(1.1); }
         }
 
-        /* Ajustados os cortes horizontais e inclinações para agirem de forma mais cadenciada */
         @keyframes glitchAnim {
             0% { clip: rect(15px, 9999px, 66px, 0); transform: skew(1deg); }
             10% { clip: rect(34px, 9999px, 55px, 0); transform: skew(-1.5deg) translateX(-5px); }
@@ -144,7 +140,7 @@
             transition: 0.3s ease;
         }
 
-        /* --- OVERLAY DE NAVEGAÇÃO COMPLETA (ESTILO ROCKSTAR / GTA VI) --- */
+        /* --- OVERLAY DE NAVEGAÇÃO COMPLETA --- */
         .nav-overlay {
             position: fixed;
             top: 0;
@@ -336,7 +332,7 @@
             color: var(--white);
         }
 
-        /* --- CONTAINER DE NAVEGAÇÃO SUAVE POR SCROLL SNAP --- */
+        /* --- CONTAINER DE NAVEGAÇÃO POR SCROLL SNAP --- */
         .scroll-container {
             width: 100%;
             height: 100vh;
@@ -486,14 +482,14 @@
             filter: contrast(1.1) brightness(0.9);
         }
 
-        /* --- SEÇÃO DA LOJA INTEGRADA --- */
+        /* --- SEÇÃO DA LOJA (COMPLETAMENTE OTIMIZADA PARA DESKTOP E CELULAR) --- */
         .shop-section-container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            height: 85vh;
+            height: 85vh; /* Mantém margem de segurança no Desktop */
         }
 
         .shop-header {
@@ -503,6 +499,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
+            flex-shrink: 0; /* Impede o cabeçalho de encolher no celular */
         }
 
         .shop-header h2 {
@@ -525,11 +522,13 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            overflow-y: auto;
-            padding-right: 10px;
+            overflow-y: auto; /* Ativa rolagem interna para os produtos */
+            padding: 10px 10px 30px 10px;
             flex: 1;
+            -webkit-overflow-scrolling: touch; /* Rolagem fluida no iOS */
         }
 
+        /* Custom Scrollbar */
         .shop-grid::-webkit-scrollbar {
             width: 6px;
         }
@@ -550,6 +549,7 @@
             flex-direction: column;
             transition: 0.3s ease;
             position: relative;
+            height: max-content; /* Permite altura natural baseada no conteúdo */
         }
 
         .product-card:hover {
@@ -570,6 +570,7 @@
             font-size: 3rem;
             font-weight: 900;
             border-bottom: 1px solid rgba(207,207,207,0.1);
+            flex-shrink: 0;
         }
 
         .product-badge {
@@ -592,6 +593,7 @@
             flex-direction: column;
             flex: 1;
             justify-content: space-between;
+            gap: 1rem;
         }
 
         .product-name {
@@ -599,14 +601,12 @@
             font-size: 1.5rem;
             text-transform: uppercase;
             color: var(--white);
-            margin-bottom: 0.5rem;
             letter-spacing: -0.5px;
         }
 
         .product-desc {
             font-size: 0.85rem;
             color: rgba(207,207,207,0.6);
-            margin-bottom: 1.5rem;
             line-height: 1.4;
         }
 
@@ -615,6 +615,7 @@
             justify-content: space-between;
             align-items: center;
             margin-top: auto;
+            padding-top: 0.5rem;
         }
 
         .product-price {
@@ -675,7 +676,7 @@
             60% { transform: translate(-50%, -5px); }
         }
 
-        /* --- RESPONSIVIDADE MOBILE --- */
+        /* --- RESPONSIVIDADE MOBILE ATUALIZADA E TESTADA --- */
         @media (max-width: 768px) {
             .menu-toggle {
                 top: 1.5rem;
@@ -753,23 +754,46 @@
                 padding-top: 0.8rem;
             }
 
+            /* --- CORREÇÃO DA LOJA PARA CELULARES --- */
             .shop-section-container {
-                height: 90vh;
-                padding-bottom: 2rem;
+                height: 100%; /* Força o container a ocupar a tela inteira do celular */
+                padding-bottom: 4rem; /* Margem extra na base para o indicador de scroll */
             }
 
             .shop-header {
                 margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
             }
 
             .shop-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Coloca os produtos um embaixo do outro */
                 gap: 1.5rem;
+                overflow-y: scroll; /* Ativa a rolagem vertical dentro da loja */
+                padding: 5px 5px 50px 5px;
+            }
+
+            .product-card {
+                width: 100%;
+                max-width: 340px; /* Impede os cartões de estourarem nas laterais */
+                margin: 0 auto;
             }
 
             .product-img-holder {
-                height: 160px;
+                height: 140px; /* Reduz o tamanho do header interno do card no celular */
                 font-size: 2rem;
+            }
+
+            .product-details {
+                padding: 1rem;
+                gap: 0.6rem;
+            }
+
+            .product-name {
+                font-size: 1.3rem;
+            }
+
+            .product-desc {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -779,19 +803,16 @@
     <div class="bg-lines"></div>
     <div class="scroll-indicator" id="scrollInd">Deslize para baixo ↓</div>
 
-    <!-- TELA DE CARREGAMENTO AJUSTADA: MAIS DEVAGAR E EXPANSIVA -->
     <div id="loader">
         <div class="logo-loader-glitch">INFORTIX</div>
     </div>
 
-    <!-- BOTÃO DE HAMBÚRGUER FIXO -->
     <div class="menu-toggle" id="openMenu">
         <span></span>
         <span></span>
         <span></span>
     </div>
 
-    <!-- SEGUNDA ABA / OVERLAY LATERAL -->
     <div class="nav-overlay" id="navOverlay">
         <div class="overlay-left">
             <div class="menu-logo-badge">INFORTIX</div>
@@ -813,7 +834,7 @@
                 
                 <button class="google-btn">
                     <svg width="18" height="18" viewBox="0 0 18 18" style="display:inline-block; vertical-align:middle;">
-                        <path fill="#EA4335" d="M9 3.6c1.6 0 3 .6 4.1 1.6l3.1-3.1C14.3.8 11.8 0 9 0 5.5 0 2.5 2 1 5l3.4 2.6C5.2 5 7 3.6 9 3.6z"/>
+                        <path fill="#EA4335" d="M9 3.6c1.6 0 3 .6 4.1 1.6l3.1-3.1C14.3.8 11.8 0 9 0 5.5 0 2.5 2 1 5l3.4 2.6className="product-desc"C5.2 5 7 3.6 9 3.6z"/>
                         <path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.2-.2-1.7H9v3.3h4.8c-.2 1-.8 1.9-1.7 2.5l2.6 2c1.6-1.5 2.9-3.7 2.9-6.1z"/>
                         <path fill="#FBBC05" d="M4.4 10.4c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2L1 3.8C.3 5.1 0 6.5 0 8s.3 2.9 1 4.2l3.4-2.6z"/>
                         <path fill="#34A853" d="M9 18c2.8 0 5.2-.9 6.9-2.5l-2.6-2c-1.1.7-2.5 1.1-4.3 1.1-3.6 0-6.6-2.4-7.7-5.7L1 11.5c1.5 3 4.5 5 8 18z"/>
@@ -829,10 +850,8 @@
         </div>
     </div>
 
-    <!-- CONTAINER DE ROLAGEM PRINCIPAL -->
     <div class="scroll-container" id="mainScrollContainer">
         
-        <!-- SEÇÃO 1: HERO -->
         <section class="hero-section">
             <div>
                 <h1 class="gta-title">INFORTIX</h1>
@@ -840,7 +859,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 2: MATTEO -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -859,7 +877,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 3: GABRIEL -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -878,7 +895,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 4: MATHEUS -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -897,7 +913,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 5: LOJA INTEGRADA -->
         <section id="shopSection">
             <div class="shop-section-container">
                 <div class="shop-header">
@@ -956,7 +971,6 @@
     </div>
 
     <script>
-        // Timeout ligeiramente maior (2.8s) para aproveitar a cadência da animação
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
