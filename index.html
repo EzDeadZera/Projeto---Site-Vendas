@@ -13,6 +13,7 @@
             --purple: #7F49B4;
             --black: #141414;
             --white: #CFCFCF;
+            --dark-gray: #1c1e24;
         }
 
         * {
@@ -70,7 +71,7 @@
             visibility: hidden;
         }
 
-        /* --- BOTÃO HAMBÚRGUER --- */
+        /* --- BOTÃO HAMBÚRGUER FIXO --- */
         .menu-toggle {
             position: fixed;
             top: 2rem;
@@ -100,7 +101,7 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background-color: rgba(0,0,0,0.9);
+            background-color: rgba(0,0,0,0.95);
             z-index: 500;
             display: flex;
             opacity: 0;
@@ -113,7 +114,7 @@
             visibility: visible;
         }
 
-        /* Painel Esquerdo - Mudado para exibir o Badge Logo da Infortix igual ao do Loader */
+        /* Painel Esquerdo */
         .overlay-left {
             flex: 1;
             background: linear-gradient(180deg, #1b3d54 0%, #102433 100%);
@@ -134,10 +135,10 @@
             padding: 10px 40px;
             border-radius: 18px;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.4);
-            transform: rotate(-5deg); /* Uma leve inclinação estilizada */
+            transform: rotate(-5deg);
         }
 
-        /* Painel Direito - Conteúdo Escuro e Opções */
+        /* Painel Direito */
         .overlay-right {
             flex: 1.2;
             background-color: #0c0d10;
@@ -154,7 +155,7 @@
             right: 2rem;
             width: 40px;
             height: 40px;
-            background-color: #1c1e24;
+            background-color: var(--dark-gray);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -169,11 +170,11 @@
             background-color: var(--purple);
         }
 
-        /* Top Bar de Abas */
+        /* Abas Superiores */
         .overlay-tabs {
             display: flex;
             gap: 1rem;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
             background-color: #14161d;
             padding: 6px;
             border-radius: 30px;
@@ -196,7 +197,7 @@
             color: #000;
         }
 
-        /* Área do Formulário de Acesso */
+        /* Área do Formulário de Acesso / Menu de Links */
         .auth-container {
             display: flex;
             flex-direction: column;
@@ -266,6 +267,30 @@
             margin-top: 0.5rem;
         }
 
+        /* Link Direto para a Loja dentro do Menu */
+        .shop-nav-link {
+            margin-top: 2rem;
+            padding: 15px 20px;
+            background-color: #14161d;
+            border-left: 4px solid var(--purple);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .shop-nav-link:hover {
+            background-color: var(--purple);
+            color: var(--white);
+        }
+
         /* --- NAVEGAÇÃO POR SCROLL SNAP --- */
         .scroll-container {
             width: 100%;
@@ -315,7 +340,7 @@
             font-weight: 700;
         }
 
-        /* --- SEÇÃO DOS SERVIÇOS --- */
+        /* --- SEÇÃO DOS SERVIÇOS / MEMBROS --- */
         .service-section {
             display: flex;
             align-items: center;
@@ -414,6 +439,165 @@
             filter: contrast(1.1) brightness(0.9);
         }
 
+        /* --- SEÇÃO DA LOJA INTEGRADA (ESTILO MERCH ROCKSTAR) --- */
+        .shop-section-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: 85vh;
+        }
+
+        .shop-header {
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--purple);
+            padding-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .shop-header h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            text-transform: uppercase;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+        .shop-header span {
+            color: var(--purple);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            overflow-y: auto;
+            padding-right: 10px;
+            flex: 1;
+        }
+
+        /* Custom Scrollbar para a grade de produtos */
+        .shop-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .shop-grid::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .shop-grid::-webkit-scrollbar-thumb {
+            background: var(--purple);
+            border-radius: 3px;
+        }
+
+        .product-card {
+            background-color: #191b22;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .product-img-holder {
+            width: 100%;
+            height: 220px;
+            background-color: #121318;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            color: var(--purple);
+            font-size: 3rem;
+            font-weight: 900;
+            border-bottom: 1px solid rgba(207,207,207,0.1);
+        }
+
+        /* Tag de Categoria Estilo GTA */
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--black);
+            color: var(--white);
+            border-left: 3px solid var(--purple);
+            font-size: 0.7rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            letter-spacing: 1px;
+        }
+
+        .product-details {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+        }
+
+        .product-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: rgba(207,207,207,0.6);
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--white);
+        }
+
+        .buy-btn {
+            background-color: var(--purple);
+            color: var(--white);
+            border: none;
+            padding: 10px 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: 0.2s;
+        }
+
+        .buy-btn:hover {
+            background-color: var(--white);
+            color: var(--black);
+        }
+
+        /* --- COMPONENTES DE EFEITO --- */
         .bg-lines {
             position: fixed;
             top: 0;
@@ -489,12 +673,12 @@
 
             .image-container {
                 width: 100%;
-                height: 40vh;
+                height: 38vh;
                 flex: none;
             }
 
             .image-wrapper {
-                max-width: 280px;
+                max-width: 260px;
                 transform: skewX(-2deg);
             }
 
@@ -505,12 +689,12 @@
             .service-info {
                 width: 100%;
                 flex: none;
-                padding-bottom: 2rem;
+                padding-bottom: 1.5rem;
             }
 
             .service-title {
                 text-align: center;
-                margin-bottom: 0.8rem;
+                margin-bottom: 0.6rem;
             }
 
             .service-tag {
@@ -521,7 +705,27 @@
 
             .gta-stats-grid {
                 gap: 0.8rem;
-                padding-top: 1rem;
+                padding-top: 0.8rem;
+            }
+
+            /* Loja Mobile */
+            .shop-section-container {
+                height: 90vh;
+                padding-bottom: 2rem;
+            }
+
+            .shop-header {
+                margin-bottom: 1rem;
+            }
+
+            .shop-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .product-img-holder {
+                height: 160px;
+                font-size: 2rem;
             }
         }
     </style>
@@ -529,7 +733,7 @@
 <body>
 
     <div class="bg-lines"></div>
-    <div class="scroll-indicator">Deslize para baixo ↓</div>
+    <div class="scroll-indicator" id="scrollInd">Deslize para baixo ↓</div>
 
     <!-- TELA DE CARREGAMENTO -->
     <div id="loader">
@@ -545,22 +749,18 @@
 
     <!-- SEGUNDA ABA / OVERLAY LATERAL -->
     <div class="nav-overlay" id="navOverlay">
-        <!-- Esquerda: Mudado para exibir o mesmo Badge de Carregamento INFORTIX -->
         <div class="overlay-left">
             <div class="menu-logo-badge">INFORTIX</div>
         </div>
         
-        <!-- Direita: Formulários com Título Corrigido para LOGIN -->
         <div class="overlay-right">
             <div class="close-btn" id="closeMenu">✕</div>
             
-            <!-- Abas superiores do Menu -->
             <div class="overlay-tabs">
                 <div class="tab-btn active" id="tabLogin">Login</div>
                 <div class="tab-btn" id="tabCadastro">Cadastrar-se</div>
             </div>
 
-            <!-- Área do Formulário de Acesso -->
             <div class="auth-container" id="authBox">
                 <h3 class="auth-title" id="authTitle">LOGIN</h3>
                 <input type="email" class="auth-input" placeholder="E-mail corporativo">
@@ -576,13 +776,20 @@
                     </svg>
                     Logar com o Google
                 </button>
+
+                <!-- ÍCONE/LINK ADICIONADO PARA ACESSAR A LOJA VIA MENU (ESTILO ROCKSTAR LAUNCHER) -->
+                <a class="shop-nav-link" id="goToShopBtn">
+                    <span>Acessar Loja Oficial</span>
+                    <span>→</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- CONTAINER DE ROLAGEM -->
-    <div class="scroll-container">
+    <!-- CONTAINER DE ROLAGEM PRINCIPAL -->
+    <div class="scroll-container" id="mainScrollContainer">
         
+        <!-- SEÇÃO 1: HERO -->
         <section class="hero-section">
             <div>
                 <h1 class="gta-title">INFORTIX</h1>
@@ -590,7 +797,7 @@
             </div>
         </section>
 
-        <!-- MATTEO -->
+        <!-- SEÇÃO 2: MATTEO -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -602,12 +809,14 @@
                     <div class="gta-stats-grid">
                         <div class="stat-item"><div class="stat-label">Especialidade</div><div class="stat-value">Hardware & Infra</div></div>
                         <div class="stat-item"><div class="stat-label">Nível de Alerta</div><div class="stat-value" style="color:var(--purple);">★★★★★</div></div>
+                        <div class="stat-item"><div class="stat-label">Localização</div><div class="stat-value">Santa Catarina</div></div>
+                        <div class="stat-item"><div class="stat-label">Aptidão Técnica</div><div class="stat-value">Sob Pressão</div></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- GABRIEL -->
+        <!-- SEÇÃO 3: GABRIEL -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -619,12 +828,14 @@
                     <div class="gta-stats-grid">
                         <div class="stat-item"><div class="stat-label">Especialidade</div><div class="stat-value">Potência & Cabos</div></div>
                         <div class="stat-item"><div class="stat-label">Nível de Perigo</div><div class="stat-value" style="color:var(--purple);">★★★★☆</div></div>
+                        <div class="stat-item"><div class="stat-label">Mobilidade</div><div class="stat-value">Resposta Rápida</div></div>
+                        <div class="stat-item"><div class="stat-label">Foco de Ação</div><div class="stat-value">Sistemas Críticos</div></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- MATHEUS -->
+        <!-- SEÇÃO 4: MATHEUS -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -636,6 +847,68 @@
                     <div class="gta-stats-grid">
                         <div class="stat-item"><div class="stat-label">Especialidade</div><div class="stat-value">Código & Dev</div></div>
                         <div class="stat-item"><div class="stat-label">Nível de Hacking</div><div class="stat-value" style="color:var(--purple);">★★★★★</div></div>
+                        <div class="stat-item"><div class="stat-label">Linguagem Base</div><div class="stat-value">Full Stack Engine</div></div>
+                        <div class="stat-item"><div class="stat-label">Modo de Operação</div><div class="stat-value">Arquitetura Pura</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 5: NOVA PÁGINA DA LOJA INTEGRADA (ESTILO MERCHANDISE DA ROCKSTAR CO.) -->
+        <section id="shopSection">
+            <div class="shop-section-container">
+                <div class="shop-header">
+                    <h2>LOJA <span>// OFICIAL</span></h2>
+                    <span>CONTRATOS E SUPRIMENTOS</span>
+                </div>
+                
+                <div class="shop-grid">
+                    <!-- Produto 1 -->
+                    <div class="product-card">
+                        <div class="product-img-holder">
+                            IX-1
+                            <span class="product-badge">Serviço Dedicado</span>
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-name">Consultoria Infraestrutura</h4>
+                            <p class="product-desc">Análise completa de servidores, redes corporativas e blindagem técnica sob medida.</p>
+                            <div class="product-footer">
+                                <span class="product-price">R$ 450</span>
+                                <button class="buy-btn">Contratar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Produto 2 -->
+                    <div class="product-card">
+                        <div class="product-img-holder">
+                            IX-2
+                            <span class="product-badge">Especial</span>
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-name">Plano de Manutenção Anual</h4>
+                            <p class="product-desc">Suporte preventivo total de hardware e software com resposta de emergência prioritária.</p>
+                            <div class="product-footer">
+                                <span class="product-price">R$ 1.200</span>
+                                <button class="buy-btn">Adquirir</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Produto 3 -->
+                    <div class="product-card">
+                        <div class="product-img-holder">
+                            IX-3
+                            <span class="product-badge">Cyber</span>
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-name">Hospedagem & Dev Engine</h4>
+                            <p class="product-desc">Desenvolvimento ágil de Landing Pages agressivas e otimizadas com deploy automatizado em cloud.</p>
+                            <div class="product-footer">
+                                <span class="product-price">R$ 890</span>
+                                <button class="buy-btn">Contratar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -676,6 +949,27 @@
             tabLogin.classList.remove('active');
             authTitle.innerText = "CADASTRAR-SE";
             mainAuthBtn.innerText = "Criar Nova Conta";
+        });
+
+        // Lógica do Link para rolar direto até a Loja ao clicar no botão do Menu
+        const goToShopBtn = document.getElementById('goToShopBtn');
+        const shopSection = document.getElementById('shopSection');
+        const mainScrollContainer = document.getElementById('mainScrollContainer');
+
+        goToShopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            navOverlay.classList.remove('open'); // Fecha o menu lateral
+            shopSection.scrollIntoView({ behavior: 'smooth' }); // Faz o scroll suave até a seção da loja
+        });
+
+        // Oculta o indicador de rolagem quando o usuário chega na loja (última seção)
+        mainScrollContainer.addEventListener('scroll', () => {
+            const indicator = document.getElementById('scrollInd');
+            if (mainScrollContainer.scrollTop + window.innerHeight >= mainScrollContainer.scrollHeight - 50) {
+                indicator.style.opacity = '0';
+            } else {
+                indicator.style.opacity = '1';
+            }
         });
     </script>
 </body>
