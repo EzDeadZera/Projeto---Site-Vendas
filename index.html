@@ -70,6 +70,197 @@
             visibility: hidden;
         }
 
+        /* --- BOTÃO HAMBÚRGUER (FIXO NO TOPO) --- */
+        .menu-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            width: 40px;
+            height: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 4px;
+            background-color: var(--white);
+            border-radius: 2px;
+            transition: 0.3s ease;
+        }
+
+        /* --- OVERLAY DE NAVEGAÇÃO COMPLETA (ESTILO GTA VI - SEGUNDA ABA) --- */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 500;
+            display: flex;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s;
+        }
+
+        .nav-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Painel Esquerdo - Gradiente Azul com Logo VI */
+        .overlay-left {
+            flex: 1;
+            background: linear-gradient(180deg, #1b3d54 0%, #102433 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .overlay-left .gta-vi-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 10rem;
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 3px var(--white);
+            opacity: 0.3;
+            letter-spacing: -5px;
+        }
+
+        /* Painel Direito - Conteúdo Escuro e Opções */
+        .overlay-right {
+            flex: 1.2;
+            background-color: #0c0d10;
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+        }
+
+        /* Botão Fechar (X) */
+        .close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 40px;
+            height: 40px;
+            background-color: #1c1e24;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--white);
+            transition: 0.2s;
+        }
+
+        .close-btn:hover {
+            background-color: var(--purple);
+        }
+
+        /* Top Bar de Abas */
+        .overlay-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 4rem;
+            background-color: #14161d;
+            padding: 6px;
+            border-radius: 30px;
+            width: max-content;
+        }
+
+        .tab-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: rgba(207,207,207,0.6);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--white);
+            color: #000;
+        }
+
+        /* Área do Formulário de Acesso (Injetada no lugar dos nomes de cidades) */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            gap: 1.5rem;
+        }
+
+        .auth-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 14px;
+            background-color: #14161d;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .auth-input:focus {
+            border-color: var(--purple);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--purple);
+            color: var(--white);
+            font-weight: 900;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            filter: brightness(1.2);
+        }
+
+        /* Botão Login com Google */
+        .google-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--white);
+            color: #000;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
         /* --- NAVEGAÇÃO POR SCROLL SNAP --- */
         .scroll-container {
             width: 100%;
@@ -83,7 +274,7 @@
         section {
             width: 100%;
             height: 100vh;
-            min-height: -webkit-fill-available; /* Correção para bug de altura no Safari Mobile */
+            min-height: -webkit-fill-available;
             scroll-snap-align: start;
             position: relative;
             display: flex;
@@ -128,10 +319,6 @@
             max-width: 1200px;
             margin: 0 auto;
             gap: 4rem;
-        }
-
-        .row-reverse {
-            flex-direction: row-reverse;
         }
 
         .service-info {
@@ -220,10 +407,8 @@
             object-fit: cover;
             transform: skewX(4deg) scale(1.05);
             filter: contrast(1.1) brightness(0.9);
-            transition: transform 0.4s ease;
         }
 
-        /* --- COMPONENTES DE EFEITO --- */
         .bg-lines {
             position: fixed;
             top: 0;
@@ -256,20 +441,41 @@
             60% { transform: translate(-50%, -5px); }
         }
 
-        /* ==========================================================================
-           MEDIA QUERIES - SEGURO E RESPONSIVO PARA QUALQUER SMARTPHONE
-           ========================================================================== */
+        /* --- RESPONSIVIDADE MOBILE --- */
         @media (max-width: 768px) {
+            .menu-toggle {
+                top: 1.5rem;
+                right: 1.5rem;
+            }
+
+            .nav-overlay {
+                flex-direction: column;
+            }
+
+            .overlay-left {
+                display: none; /* Esconde painel esquerdo no celular para dar espaço ao formulário */
+            }
+
+            .overlay-right {
+                flex: 1;
+                padding: 2rem;
+                justify-content: center;
+            }
+
+            .overlay-tabs {
+                margin-bottom: 2rem;
+            }
+
             section {
-                padding: 3rem 1rem 1.5rem 1rem;
+                padding: 4rem 1rem 1.5rem 1rem;
                 height: 100vh;
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
             }
 
-            .service-section, .service-section.row-reverse {
-                flex-direction: column; /* Força a foto em cima e os dados embaixo */
+            .service-section {
+                flex-direction: column;
                 gap: 1rem;
                 width: 100%;
                 height: 100%;
@@ -278,16 +484,13 @@
 
             .image-container {
                 width: 100%;
-                height: 40vh; /* Controla a altura da imagem no celular */
-                margin-top: 0.5rem;
+                height: 40vh;
                 flex: none;
             }
 
             .image-wrapper {
                 max-width: 280px;
-                height: 100%;
                 transform: skewX(-2deg);
-                box-shadow: -10px 10px 0px rgba(127, 73, 180, 0.2);
             }
 
             .image-wrapper img {
@@ -301,34 +504,19 @@
             }
 
             .service-title {
-                margin-bottom: 0.8rem;
                 text-align: center;
+                margin-bottom: 0.8rem;
             }
 
             .service-tag {
                 display: block;
                 width: max-content;
                 margin: 0 auto 0.6rem auto;
-                font-size: 0.75rem;
-                padding: 4px 12px;
             }
 
             .gta-stats-grid {
                 gap: 0.8rem;
                 padding-top: 1rem;
-            }
-
-            .stat-value {
-                font-size: 0.95rem;
-            }
-
-            .stat-label {
-                font-size: 0.65rem;
-            }
-
-            .scroll-indicator {
-                font-size: 0.65rem;
-                bottom: 0.8rem;
             }
         }
     </style>
@@ -343,10 +531,54 @@
         <div class="logo-loader">INFORTIX</div>
     </div>
 
-    <!-- CONTAINER COM SCROLL SNAP -->
+    <!-- BOTÃO DE HAMBÚRGUER FIXO (IMAGE_7CDF41.PNG) -->
+    <div class="menu-toggle" id="openMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- SEGUNDA ABA / OVERLAY LATERAL (IMAGE_7CDC3D.JPG) -->
+    <div class="nav-overlay" id="navOverlay">
+        <!-- Esquerda: Gradiente com Logo -->
+        <div class="overlay-left">
+            <div class="gta-vi-logo">VI</div>
+        </div>
+        
+        <!-- Direita: Formulários e Abas -->
+        <div class="overlay-right">
+            <div class="close-btn" id="closeMenu">✕</div>
+            
+            <!-- Abas superiores do Menu -->
+            <div class="overlay-tabs">
+                <div class="tab-btn active" id="tabLogin">Login</div>
+                <div class="tab-btn" id="tabCadastro">Cadastrar-se</div>
+            </div>
+
+            <!-- Formulários Dinâmicos (Substituindo a lista de Vice City) -->
+            <div class="auth-container" id="authBox">
+                <h3 class="auth-title" id="authTitle">VICE CITY ACCESS</h3>
+                <input type="email" class="auth-input" placeholder="E-mail corporativo">
+                <input type="password" class="auth-input" placeholder="Senha secreta">
+                <button class="submit-btn" id="mainAuthBtn">Entrar no Sistema</button>
+                
+                <!-- Botão de Conexão com Google -->
+                <button class="google-btn">
+                    <svg width="18" height="18" viewBox="0 0 18 18" style="display:inline-block; vertical-align:middle;">
+                        <path fill="#EA4335" d="M9 3.6c1.6 0 3 .6 4.1 1.6l3.1-3.1C14.3.8 11.8 0 9 0 5.5 0 2.5 2 1 5l3.4 2.6C5.2 5 7 3.6 9 3.6z"/>
+                        <path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.2-.2-1.7H9v3.3h4.8c-.2 1-.8 1.9-1.7 2.5l2.6 2c1.6-1.5 2.9-3.7 2.9-6.1z"/>
+                        <path fill="#FBBC05" d="M4.4 10.4c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2L1 3.8C.3 5.1 0 6.5 0 8s.3 2.9 1 4.2l3.4-2.6z"/>
+                        <path fill="#34A853" d="M9 18c2.8 0 5.2-.9 6.9-2.5l-2.6-2c-1.1.7-2.5 1.1-4.3 1.1-3.6 0-6.6-2.4-7.7-5.7L1 11.5c1.5 3 4.5 5 8 18z"/>
+                    </svg>
+                    Logar com o Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ESTRUTURA ORIGINAL DE ROLAGEM -->
     <div class="scroll-container">
         
-        <!-- SEÇÃO 1: HERO -->
         <section class="hero-section">
             <div>
                 <h1 class="gta-title">INFORTIX</h1>
@@ -354,120 +586,92 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 2: MATTEO FRONZA -->
+        <!-- MATTEO -->
         <section>
             <div class="service-section">
                 <div class="image-container">
-                    <div class="image-wrapper">
-                        <img src="Matteo.jpeg" alt="Matteo Fronza - O Técnico">
-                    </div>
+                    <div class="image-wrapper"><img src="Matteo.jpeg" alt="Matteo"></div>
                 </div>
-
                 <div class="service-info">
                     <span class="service-tag">Staff Autorizado</span>
                     <h2 class="service-title">Matteo Fronza<br><span>O Técnico</span></h2>
-                    
                     <div class="gta-stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-label">Especialidade</div>
-                            <div class="stat-value">Hardware & Infra</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Nível de Alerta</div>
-                            <div class="stat-value" style="color: var(--purple);">★★★★★</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Localização</div>
-                            <div class="stat-value">Santa Catarina</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Aptidão Técnica</div>
-                            <div class="stat-value">Sob Pressão</div>
-                        </div>
+                        <div class="stat-item"><div class="stat-label">Especialidade</div><div class="stat-value">Hardware & Infra</div></div>
+                        <div class="stat-item"><div class="stat-label">Nível de Alerta</div><div class="stat-value" style="color:var(--purple);">★★★★★</div></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SEÇÃO 3: GABRIEL -->
+        <!-- GABRIEL -->
         <section>
             <div class="service-section">
                 <div class="image-container">
-                    <div class="image-wrapper">
-                        <img src="Gabriel.jpeg" alt="Gabriel - O Eletricista">
-                    </div>
+                    <div class="image-wrapper"><img src="Gabriel.jpeg" alt="Gabriel"></div>
                 </div>
-
                 <div class="service-info">
                     <span class="service-tag">Alta Voltagem</span>
                     <h2 class="service-title">Gabriel<br><span>O Eletricista</span></h2>
-                    
                     <div class="gta-stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-label">Especialidade</div>
-                            <div class="stat-value">Potência & Cabos</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Nível de Perigo</div>
-                            <div class="stat-value" style="color: var(--purple);">★★★★☆</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Mobilidade</div>
-                            <div class="stat-value">Resposta Rápida</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Foco de Ação</div>
-                            <div class="stat-value">Sistemas Críticos</div>
-                        </div>
+                        <div class="stat-item"><div class="stat-label">Especialidade</div><div class="stat-value">Potência & Cabos</div></div>
+                        <div class="stat-item"><div class="stat-label">Nível de Perigo</div><div class="stat-value" style="color:var(--purple);">★★★★☆</div></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SEÇÃO 4: MATHEUS -->
+        <!-- MATHEUS -->
         <section>
             <div class="service-section">
                 <div class="image-container">
-                    <div class="image-wrapper">
-                        <img src="Matheus.jpeg" alt="Matheus - O Dev">
-                    </div>
+                    <div class="image-wrapper"><img src="Matheus.jpeg" alt="Matheus"></div>
                 </div>
-
                 <div class="service-info">
                     <span class="service-tag">Cyber Ops</span>
                     <h2 class="service-title">Matheus<br><span>O Dev</span></h2>
-                    
                     <div class="gta-stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-label">Especialidade</div>
-                            <div class="stat-value">Código & Dev</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Nível de Hacking</div>
-                            <div class="stat-value" style="color: var(--purple);">★★★★★</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Linguagem Base</div>
-                            <div class="stat-value">Full Stack Engine</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Modo de Operação</div>
-                            <div class="stat-value">Arquitetura Pura</div>
-                        </div>
+                        <div class="stat-item"><div class="stat-label">Especialidade</div><div class="stat-value">Código & Dev</div></div>
+                        <div class="stat-item"><div class="stat-label">Nível de Hacking</div><div class="stat-value" style="color:var(--purple);">★★★★★</div></div>
                     </div>
                 </div>
             </div>
         </section>
-
     </div>
 
     <script>
+        // Loader inicial
         window.addEventListener('load', () => {
-            const loader = document.getElementById('loader');
             setTimeout(() => {
-                loader.classList.add('hidden');
-                document.body.style.overflow = 'auto';
+                document.getElementById('loader').classList.add('hidden');
             }, 1500);
+        });
+
+        // Controle da Segunda Aba / Menu Lateral
+        const openMenu = document.getElementById('openMenu');
+        const closeMenu = document.getElementById('closeMenu');
+        const navOverlay = document.getElementById('navOverlay');
+
+        openMenu.addEventListener('click', () => navOverlay.classList.add('open'));
+        closeMenu.addEventListener('click', () => navOverlay.classList.remove('open'));
+
+        // Alternador das Abas (Login / Cadastro)
+        const tabLogin = document.getElementById('tabLogin');
+        const tabCadastro = document.getElementById('tabCadastro');
+        const authTitle = document.getElementById('authTitle');
+        const mainAuthBtn = document.getElementById('mainAuthBtn');
+
+        tabLogin.addEventListener('click', () => {
+            tabLogin.classList.add('active');
+            tabCadastro.classList.remove('active');
+            authTitle.innerText = "VICE CITY ACCESS";
+            mainAuthBtn.innerText = "Entrar no Sistema";
+        });
+
+        tabCadastro.addEventListener('click', () => {
+            tabCadastro.classList.add('active');
+            tabLogin.classList.remove('active');
+            authTitle.innerText = "JOIN THE INFORTIX";
+            mainAuthBtn.innerText = "Criar Nova Conta";
         });
     </script>
 </body>
