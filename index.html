@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFORTIX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700;900&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --purple: #7F49B4;
+            --black: #141414;
+            --white: #CFCFCF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            overflow: hidden;
+        }
+
+        /* --- TELA DE CARREGAMENTO (ESTILO ROCKSTAR) --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+        }
+
+        .logo-loader {
+            font-family: 'Oswald', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            color: var(--black);
+            background-color: var(--white);
+            padding: 10px 40px;
+            border-radius: 18px;
+            box-shadow: 0 0 40px rgba(127, 73, 180, 0.4);
+            position: relative;
+            animation: pulseLogo 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseLogo {
+            0% { transform: scale(0.98); filter: brightness(0.9); }
+            50% { transform: scale(1.02); filter: brightness(1.2); box-shadow: 0 0 50px rgba(127, 73, 180, 0.7); }
+            100% { transform: scale(0.98); filter: brightness(0.9); }
+        }
+
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* --- NAVEGAÇÃO POR SCROLL SNAP --- */
+        .scroll-container {
+            width: 100%;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        section {
+            width: 100%;
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+            overflow: hidden;
+        }
+
+        /* --- SEÇÃO HERO --- */
+        .hero-section {
+            background: linear-gradient(180deg, rgba(20,20,20,1) 0%, rgba(35,20,50,1) 100%);
+            text-align: center;
+        }
+
+        .gta-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -3px;
+            color: var(--white);
+            line-height: 0.9;
+            text-shadow: 4px 4px 0px var(--purple);
+            margin-bottom: 1rem;
+        }
+
+        .gta-subtitle {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--purple);
+            font-weight: 700;
+        }
+
+        /* --- SEÇÃO DOS SERVIÇOS --- */
+        .service-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 4rem;
+        }
+
+        /* Alternância visual para seções ímpares (imagem na esquerda) */
+        .row-reverse {
+            flex-direction: row-reverse;
+        }
+
+        .service-info {
+            flex: 1;
+        }
+
+        .service-tag {
+            background-color: var(--purple);
+            color: var(--black);
+            font-weight: 900;
+            padding: 6px 16px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            transform: skewX(-10deg);
+        }
+
+        .service-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4.5rem;
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: 2rem;
+            color: var(--white);
+        }
+
+        .service-title span {
+            color: var(--purple);
+            display: block;
+        }
+
+        /* Grid de Status estilo GTA */
+        .gta-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            border-top: 2px solid rgba(207, 207, 207, 0.2);
+            padding-top: 2rem;
+        }
+
+        .stat-item {
+            border-left: 3px solid var(--purple);
+            padding-left: 12px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: rgba(207, 207, 207, 0.6);
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--white);
+        }
+
+        /* Imagem com corte inclinado (Artwork GTA VI) */
+        .image-container {
+            flex: 1;
+            height: 75vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-wrapper {
+            width: 100%;
+            height: 100%;
+            max-width: 450px;
+            border: 4px solid var(--purple);
+            overflow: hidden;
+            transform: skewX(-4deg);
+            box-shadow: -20px 20px 0px rgba(127, 73, 180, 0.15);
+            background-color: #222;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: skewX(4deg) scale(1.05);
+            filter: contrast(1.1) brightness(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .image-wrapper:hover img {
+            transform: skewX(4deg) scale(1.1);
+        }
+
+        /* Linhas de fundo de TV antiga / Scanlines */
+        .bg-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 6px 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Indicador fixo de Scroll */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: rgba(207, 207, 207, 0.4);
+            animation: bounce 2s infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -10px); }
+            60% { transform: translate(-50%, -5px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-lines"></div>
+    <div class="scroll-indicator">Use o mouse scroll ↓</div>
+
+    <!-- TELA DE CARREGAMENTO ESTILO ROCKSTAR -->
+    <div id="loader">
+        <div class="logo-loader">INFORTIX</div>
+    </div>
+
+    <!-- ESTRUTURA COM SCROLL SNAP -->
+    <div class="scroll-container">
+        
+        <!-- SEÇÃO 1: HERO / APRESENTAÇÃO -->
+        <section class="hero-section">
+            <div>
+                <h1 class="gta-title">INFORTIX</h1>
+                <p class="gta-subtitle">Apresentação de Serviços</p>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: MATTEO FRONZA - O TÉCNICO -->
+        <section>
+            <div class="service-section">
+                <div class="service-info">
+                    <span class="service-tag">Staff Autorizado</span>
+                    <h2 class="service-title">Matteo Fronza<br><span>O Técnico</span></h2>
+                    
+                    <div class="gta-stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Especialidade</div>
+                            <div class="stat-value">Hardware & Infraestrutura</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Nível de Alerta</div>
+                            <div class="stat-value" style="color: var(--purple);">★★★★★</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Localização</div>
+                            <div class="stat-value">Santa Catarina</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Aptidão Técnica</div>
+                            <div class="stat-value">Resolução Sob Pressão</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <div class="image-wrapper">
+                        <img src="Matteo.jpeg" alt="Matteo Fronza - O Técnico">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: GABRIEL - O ELETRICISTA (Invertida para dinâmica visual) -->
+        <section>
+            <div class="service-section row-reverse">
+                <div class="service-info">
+                    <span class="service-tag">Alta Voltagem</span>
+                    <h2 class="service-title">Gabriel<br><span>O Eletricista</span></h2>
+                    
+                    <div class="gta-stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Especialidade</div>
+                            <div class="stat-value">Potência & Cabeamento</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Nível de Perigo</div>
+                            <div class="stat-value" style="color: var(--purple);">★★★★☆</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Mobilidade</div>
+                            <div class="stat-value">Resposta Rápida</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Foco de Ação</div>
+                            <div class="stat-value">Sistemas Críticos</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <div class="image-wrapper">
+                        <img src="Gabriel.jpeg" alt="Gabriel - O Eletricista">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: MATHEUS - O DEV -->
+        <section>
+            <div class="service-section">
+                <div class="service-info">
+                    <span class="service-tag">Cyber Ops</span>
+                    <h2 class="service-title">Matheus<br><span>O Dev</span></h2>
+                    
+                    <div class="gta-stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Especialidade</div>
+                            <div class="stat-value">Desenvolvimento & Código</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Nível de Hacking</div>
+                            <div class="stat-value" style="color: var(--purple);">★★★★★</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Linguagem Base</div>
+                            <div class="stat-value">Full Stack Engine</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Modo de Operação</div>
+                            <div class="stat-value">Arquitetura Pura</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <div class="image-wrapper">
+                        <img src="Matheus.jpeg" alt="Matheus - O Dev">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 1800);
+        });
+    </script>
+</body>
+</html>
