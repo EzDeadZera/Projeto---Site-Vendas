@@ -29,7 +29,7 @@
             overflow: hidden;
         }
 
-        /* --- TELA DE CARREGAMENTO (ESTILO ROCKSTAR) --- */
+        /* --- TELA DE CARREGAMENTO --- */
         #loader {
             position: fixed;
             top: 0;
@@ -55,7 +55,6 @@
             padding: 10px 40px;
             border-radius: 18px;
             box-shadow: 0 0 40px rgba(127, 73, 180, 0.4);
-            position: relative;
             animation: pulseLogo 2s infinite ease-in-out;
         }
 
@@ -87,7 +86,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 4rem;
+            padding: 4rem 2rem;
             overflow: hidden;
         }
 
@@ -128,7 +127,6 @@
             gap: 4rem;
         }
 
-        /* Alternância visual para seções ímpares (imagem na esquerda) */
         .row-reverse {
             flex-direction: row-reverse;
         }
@@ -164,7 +162,6 @@
             display: block;
         }
 
-        /* Grid de Status estilo GTA */
         .gta-stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -193,7 +190,6 @@
             color: var(--white);
         }
 
-        /* Imagem com corte inclinado (Artwork GTA VI) */
         .image-container {
             flex: 1;
             height: 75vh;
@@ -226,7 +222,6 @@
             transform: skewX(4deg) scale(1.1);
         }
 
-        /* Linhas de fundo de TV antiga / Scanlines */
         .bg-lines {
             position: fixed;
             top: 0;
@@ -239,7 +234,6 @@
             pointer-events: none;
         }
 
-        /* Indicador fixo de Scroll */
         .scroll-indicator {
             position: fixed;
             bottom: 2rem;
@@ -259,22 +253,126 @@
             40% { transform: translate(-50%, -10px); }
             60% { transform: translate(-50%, -5px); }
         }
+
+        /* ==========================================================================
+           MEDIA QUERIES (OTIMIZAÇÃO PARA CELULAR / MOBILE)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto; /* Permite fluidez caso algum conteúdo quebre */
+            }
+
+            section {
+                padding: 2rem 1.5rem;
+                height: 100vh; /* Mantém o snap ativo por tela */
+            }
+
+            /* Redução do Loader */
+            .logo-loader {
+                font-size: 3.5rem;
+                padding: 8px 25px;
+            }
+
+            /* Redução da Hero principal */
+            .gta-title {
+                font-size: 4rem;
+                text-shadow: 2px 2px 0px var(--purple);
+            }
+
+            .gta-subtitle {
+                font-size: 1rem;
+                letter-spacing: 3px;
+            }
+
+            /* Mudança do layout grid/flex para vertical */
+            .service-section, .row-reverse {
+                flex-direction: column-reverse; /* Imagem fica no topo e texto embaixo */
+                justify-content: center;
+                gap: 1.5rem;
+                height: 100%;
+            }
+
+            .service-info {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .service-title {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .service-tag {
+                font-size: 0.75rem;
+                padding: 4px 12px;
+                margin-bottom: 0.8rem;
+            }
+
+            /* Ajuste da grade de estatísticas */
+            .gta-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                padding-top: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1rem;
+            }
+
+            .stat-label {
+                font-size: 0.7rem;
+            }
+
+            /* Ajuste do container da imagem para não quebrar o layout */
+            .image-container {
+                width: 100%;
+                height: 35vh; /* Ocupa apenas a parte superior do ecrã do telemóvel */
+                margin-top: 1rem;
+            }
+
+            .image-wrapper {
+                max-width: 100%;
+                height: 100%;
+                transform: skewX(-2deg); /* Inclinação menor para não cortar o rosto */
+                box-shadow: -10px 10px 0px rgba(127, 73, 180, 0.15);
+            }
+
+            .image-wrapper img {
+                transform: skewX(2deg) scale(1.05);
+            }
+            
+            .scroll-indicator {
+                font-size: 0.7rem;
+                bottom: 1rem;
+            }
+        }
+
+        /* Ajuste extremo para telemóveis muito pequenos (iPhone SE / telas < 360px) */
+        @media (max-width: 360px) {
+            .service-title {
+                font-size: 2.2rem;
+            }
+            .image-container {
+                height: 30vh;
+            }
+            .gta-stats-grid {
+                grid-template-columns: 1fr; /* Transforma em uma única coluna se faltar espaço */
+                gap: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="bg-lines"></div>
-    <div class="scroll-indicator">Use o mouse scroll ↓</div>
+    <div class="scroll-indicator">Deslize para baixo ↓</div>
 
-    <!-- TELA DE CARREGAMENTO ESTILO ROCKSTAR -->
     <div id="loader">
         <div class="logo-loader">INFORTIX</div>
     </div>
 
-    <!-- ESTRUTURA COM SCROLL SNAP -->
     <div class="scroll-container">
         
-        <!-- SEÇÃO 1: HERO / APRESENTAÇÃO -->
         <section class="hero-section">
             <div>
                 <h1 class="gta-title">INFORTIX</h1>
@@ -282,7 +380,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 2: MATTEO FRONZA - O TÉCNICO -->
         <section>
             <div class="service-section">
                 <div class="service-info">
@@ -292,7 +389,7 @@
                     <div class="gta-stats-grid">
                         <div class="stat-item">
                             <div class="stat-label">Especialidade</div>
-                            <div class="stat-value">Hardware & Infraestrutura</div>
+                            <div class="stat-value">Hardware & Infra</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-label">Nível de Alerta</div>
@@ -304,7 +401,7 @@
                         </div>
                         <div class="stat-item">
                             <div class="stat-label">Aptidão Técnica</div>
-                            <div class="stat-value">Resolução Sob Pressão</div>
+                            <div class="stat-value">Sob Pressão</div>
                         </div>
                     </div>
                 </div>
@@ -317,7 +414,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 3: GABRIEL - O ELETRICISTA (Invertida para dinâmica visual) -->
         <section>
             <div class="service-section row-reverse">
                 <div class="service-info">
@@ -327,7 +423,7 @@
                     <div class="gta-stats-grid">
                         <div class="stat-item">
                             <div class="stat-label">Especialidade</div>
-                            <div class="stat-value">Potência & Cabeamento</div>
+                            <div class="stat-value">Potência & Cabos</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-label">Nível de Perigo</div>
@@ -352,7 +448,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 4: MATHEUS - O DEV -->
         <section>
             <div class="service-section">
                 <div class="service-info">
@@ -362,7 +457,7 @@
                     <div class="gta-stats-grid">
                         <div class="stat-item">
                             <div class="stat-label">Especialidade</div>
-                            <div class="stat-value">Desenvolvimento & Código</div>
+                            <div class="stat-value">Código & Dev</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-label">Nível de Hacking</div>
