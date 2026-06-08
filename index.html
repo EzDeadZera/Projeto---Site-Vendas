@@ -1030,7 +1030,7 @@
 
             if (currentMode === 'register') {
                 // Envia e-mail de confirmação real para a caixa de entrada do usuário
-                const { data, error } = await supabase.auth.signUp({
+                const { data, error } = await supabaseClient.auth.signUp({
                     email: email,
                     password: password,
                 });
@@ -1042,7 +1042,7 @@
                 }
             } else {
                 // Login tradicional por senha
-                const { data, error } = await supabase.auth.signInWithPassword({
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
                     email: email,
                     password: password,
                 });
@@ -1059,7 +1059,7 @@
         // LÓGICA DE AUTENTICAÇÃO VIA GOOGLE RESTRICT OAUTH
         const googleBtn = document.querySelector('.google-btn');
         googleBtn.addEventListener('click', async () => {
-            const { data, error } = await supabase.auth.signInWithOAuth({
+            const { data, error } = await supabaseClient.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
                     redirectTo: window.location.origin
