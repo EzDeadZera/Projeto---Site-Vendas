@@ -977,14 +977,14 @@
         const SUPABASE_URL = "https://iqdqkilhnzriljcxjjnv.supabase.co/rest/v1/";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZHFraWxobnpyaWxqY3hqam52Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzExMDIsImV4cCI6MjA5NjUwNzEwMn0.-WPPCptTDxN9zzsQ3wUs44qxY0xfBgwmgFgJU07QQcU";
         
-        // Mudamos o nome para supabaseClient para eliminar o erro do console de vez
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        // Ocultar loader inicial com fade seguro
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 2800); 
-        });
+        // Criamos o cliente garantindo que ele use a URL base correta para autenticação
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                auth: {
+                    autoRefreshToken: true,
+                    persistSession: true,
+                    detectSessionInUrl: true
+                }
+            });
 
         // Controle do Menu Lateral
         const openMenu = document.getElementById('openMenu');
