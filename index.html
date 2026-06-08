@@ -973,11 +973,12 @@
     <script>
         // 1. CONEXÃO COM O SUPABASE
         // Substitua os dois textos abaixo pelos dados do seu painel em 'Project Settings' > 'API' no Supabase
+        
         const SUPABASE_URL = "https://iqdqkilhnzriljcxjjnv.supabase.co/rest/v1/";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZHFraWxobnpyaWxqY3hqam52Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzExMDIsImV4cCI6MjA5NjUwNzEwMn0.-WPPCptTDxN9zzsQ3wUs44qxY0xfBgwmgFgJU07QQcU";
         
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+        // Mudamos o nome para supabaseClient para eliminar o erro do console de vez
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         // Ocultar loader inicial com fade seguro
         window.addEventListener('load', () => {
             setTimeout(() => {
