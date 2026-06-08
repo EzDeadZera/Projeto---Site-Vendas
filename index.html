@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700;900&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         :root {
             --purple: #7F49B4;
@@ -31,7 +33,7 @@
             overflow: hidden;
         }
 
-        /* --- TELA DE CARREGAMENTO --- */
+        /* --- TELA DE CARREGAMENTO COM ANIMAÇÃO GLITCH CADENCIADA --- */
         #loader {
             position: fixed;
             top: 0;
@@ -140,7 +142,7 @@
             transition: 0.3s ease;
         }
 
-        /* --- OVERLAY DE NAVEGAÇÃO COMPLETA --- */
+        /* --- OVERLAY DE NAVEGAÇÃO COMPLETA (ABAS + LOGIN) --- */
         .nav-overlay {
             position: fixed;
             top: 0;
@@ -332,7 +334,7 @@
             color: var(--white);
         }
 
-        /* --- CONTAINER DE NAVEGAÇÃO POR SCROLL SNAP --- */
+        /* --- CONTAINER DE NAVEGAÇÃO POR SCROLL SNAP FLUIDO --- */
         .scroll-container {
             width: 100%;
             height: 100vh;
@@ -482,14 +484,14 @@
             filter: contrast(1.1) brightness(0.9);
         }
 
-        /* --- SEÇÃO DA LOJA (COMPLETAMENTE OTIMIZADA PARA DESKTOP E CELULAR) --- */
+        /* --- SEÇÃO DA LOJA (OTIMIZADA) --- */
         .shop-section-container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            height: 85vh; /* Mantém margem de segurança no Desktop */
+            height: 85vh;
         }
 
         .shop-header {
@@ -499,7 +501,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            flex-shrink: 0; /* Impede o cabeçalho de encolher no celular */
+            flex-shrink: 0;
         }
 
         .shop-header h2 {
@@ -522,13 +524,12 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            overflow-y: auto; /* Ativa rolagem interna para os produtos */
+            overflow-y: auto;
             padding: 10px 10px 30px 10px;
             flex: 1;
-            -webkit-overflow-scrolling: touch; /* Rolagem fluida no iOS */
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* Custom Scrollbar */
         .shop-grid::-webkit-scrollbar {
             width: 6px;
         }
@@ -549,7 +550,7 @@
             flex-direction: column;
             transition: 0.3s ease;
             position: relative;
-            height: max-content; /* Permite altura natural baseada no conteúdo */
+            height: max-content;
         }
 
         .product-card:hover {
@@ -643,7 +644,7 @@
             color: var(--black);
         }
 
-        /* --- COMPONENTES DE EFEITO --- */
+        /* --- COMPONENTES DE EFEITO SCANLINES --- */
         .bg-lines {
             position: fixed;
             top: 0;
@@ -676,7 +677,7 @@
             60% { transform: translate(-50%, -5px); }
         }
 
-        /* --- RESPONSIVIDADE MOBILE ATUALIZADA E TESTADA --- */
+        /* --- INTERFACE MOBILE RESPONSIVA E CORRIGIDA --- */
         @media (max-width: 768px) {
             .menu-toggle {
                 top: 1.5rem;
@@ -754,10 +755,9 @@
                 padding-top: 0.8rem;
             }
 
-            /* --- CORREÇÃO DA LOJA PARA CELULARES --- */
             .shop-section-container {
-                height: 100%; /* Força o container a ocupar a tela inteira do celular */
-                padding-bottom: 4rem; /* Margem extra na base para o indicador de scroll */
+                height: 100%;
+                padding-bottom: 4rem;
             }
 
             .shop-header {
@@ -766,20 +766,20 @@
             }
 
             .shop-grid {
-                grid-template-columns: 1fr; /* Coloca os produtos um embaixo do outro */
+                grid-template-columns: 1fr;
                 gap: 1.5rem;
-                overflow-y: scroll; /* Ativa a rolagem vertical dentro da loja */
+                overflow-y: scroll;
                 padding: 5px 5px 50px 5px;
             }
 
             .product-card {
                 width: 100%;
-                max-width: 340px; /* Impede os cartões de estourarem nas laterais */
+                max-width: 340px;
                 margin: 0 auto;
             }
 
             .product-img-holder {
-                height: 140px; /* Reduz o tamanho do header interno do card no celular */
+                height: 140px;
                 font-size: 2rem;
             }
 
@@ -834,7 +834,7 @@
                 
                 <button class="google-btn">
                     <svg width="18" height="18" viewBox="0 0 18 18" style="display:inline-block; vertical-align:middle;">
-                        <path fill="#EA4335" d="M9 3.6c1.6 0 3 .6 4.1 1.6l3.1-3.1C14.3.8 11.8 0 9 0 5.5 0 2.5 2 1 5l3.4 2.6className="product-desc"C5.2 5 7 3.6 9 3.6z"/>
+                        <path fill="#EA4335" d="M9 3.6c1.6 0 3 .6 4.1 1.6l3.1-3.1C14.3.8 11.8 0 9 0 5.5 0 2.5 2 1 5l3.4 2.6C5.2 5 7 3.6 9 3.6z"/>
                         <path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.2-.2-1.7H9v3.3h4.8c-.2 1-.8 1.9-1.7 2.5l2.6 2c1.6-1.5 2.9-3.7 2.9-6.1z"/>
                         <path fill="#FBBC05" d="M4.4 10.4c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2L1 3.8C.3 5.1 0 6.5 0 8s.3 2.9 1 4.2l3.4-2.6z"/>
                         <path fill="#34A853" d="M9 18c2.8 0 5.2-.9 6.9-2.5l-2.6-2c-1.1.7-2.5 1.1-4.3 1.1-3.6 0-6.6-2.4-7.7-5.7L1 11.5c1.5 3 4.5 5 8 18z"/>
@@ -971,12 +971,21 @@
     </div>
 
     <script>
+        // 1. CONEXÃO COM O SUPABASE
+        // Substitua os dois textos abaixo pelos dados do seu painel em 'Project Settings' > 'API' no Supabase
+        const SUPABASE_URL = "SUA_SUPABASE_URL_AQUI";
+        const SUPABASE_ANON_KEY = "SUA_SUPABASE_ANON_KEY_AQUI";
+        
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Ocultar loader inicial com fade seguro
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
             }, 2800); 
         });
 
+        // Controle do Menu Lateral
         const openMenu = document.getElementById('openMenu');
         const closeMenu = document.getElementById('closeMenu');
         const navOverlay = document.getElementById('navOverlay');
@@ -984,12 +993,16 @@
         openMenu.addEventListener('click', () => navOverlay.classList.add('open'));
         closeMenu.addEventListener('click', () => navOverlay.classList.remove('open'));
 
+        // Abas de Login/Cadastro
         const tabLogin = document.getElementById('tabLogin');
         const tabCadastro = document.getElementById('tabCadastro');
         const authTitle = document.getElementById('authTitle');
         const mainAuthBtn = document.getElementById('mainAuthBtn');
+        
+        let currentMode = 'login';
 
         tabLogin.addEventListener('click', () => {
+            currentMode = 'login';
             tabLogin.classList.add('active');
             tabCadastro.classList.remove('active');
             authTitle.innerText = "LOGIN";
@@ -997,12 +1010,65 @@
         });
 
         tabCadastro.addEventListener('click', () => {
+            currentMode = 'register';
             tabCadastro.classList.add('active');
             tabLogin.classList.remove('active');
             authTitle.innerText = "CADASTRAR-SE";
             mainAuthBtn.innerText = "Criar Nova Conta";
         });
 
+        // LÓGICA DE AUTENTICAÇÃO VIA E-MAIL (CADASTRO COM CONFIRMAÇÃO)
+        mainAuthBtn.addEventListener('click', async () => {
+            const email = document.querySelector('input[type="email"]').value;
+            const password = document.querySelector('input[type="password"]').value;
+
+            if (!email || !password) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            if (currentMode === 'register') {
+                // Envia e-mail de confirmação real para a caixa de entrada do usuário
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                });
+
+                if (error) {
+                    alert("Erro ao cadastrar: " + error.message);
+                } else {
+                    alert("Verifique sua caixa de entrada! Enviamos um e-mail de confirmação para validar o seu acesso.");
+                }
+            } else {
+                // Login tradicional por senha
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password,
+                });
+
+                if (error) {
+                    alert("Erro ao entrar: " + error.message);
+                } else {
+                    alert("Acesso autorizado! Bem-vindo ao ecossistema INFORTIX.");
+                    navOverlay.classList.remove('open');
+                }
+            }
+        });
+
+        // LÓGICA DE AUTENTICAÇÃO VIA GOOGLE RESTRICT OAUTH
+        const googleBtn = document.querySelector('.google-btn');
+        googleBtn.addEventListener('click', async () => {
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin
+                }
+            });
+
+            if (error) alert("Erro ao autenticar com o Google: " + error.message);
+        });
+
+        // Link Rolar para Loja
         const goToShopBtn = document.getElementById('goToShopBtn');
         const shopSection = document.getElementById('shopSection');
         const mainScrollContainer = document.getElementById('mainScrollContainer');
@@ -1013,6 +1079,7 @@
             shopSection.scrollIntoView({ behavior: 'smooth' });
         });
 
+        // Controle do indicador de rolagem da página
         mainScrollContainer.addEventListener('scroll', () => {
             const indicator = document.getElementById('scrollInd');
             if (mainScrollContainer.scrollTop + window.innerHeight >= mainScrollContainer.scrollHeight - 50) {
@@ -1022,6 +1089,5 @@
             }
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>
 </html>
