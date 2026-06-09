@@ -928,7 +928,7 @@
                         </div>
                         <div class="product-details">
                             <h4 class="product-name">Consultoria Infraestrutura</h4>
-                            <p class="product-desc">Análise completa de servidores, redes corporativas e blindagem técnica sob medida.</p>
+                            <p class="product-desc">Análise completa de servidores, networks corporativas e blindagem técnica sob medida.</p>
                             <div class="product-footer">
                                 <span class="product-price">R$ 450</span>
                                 <button class="buy-btn">Contratar</button>
@@ -971,20 +971,24 @@
     </div>
 
     <script>
-        // 1. CONEXÃO COM O SUPABASE
-        // Substitua os dois textos abaixo pelos dados do seu painel em 'Project Settings' > 'API' no Supabase
-        
-        const SUPABASE_URL = "https://iqdqkilhnzriljcxjjnv.supabase.co/rest/v1/";
+        // 1. CONEXÃO COM O SUPABASE (URL limpa sem barras ou diretórios sobressalentes)
+        const SUPABASE_URL = "https://iqdqkilhnzriljcxjjnv.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZHFraWxobnpyaWxqY3hqam52Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzExMDIsImV4cCI6MjA5NjUwNzEwMn0.-WPPCptTDxN9zzsQ3wUs44qxY0xfBgwmgFgJU07QQcU";
         
-        // Criamos o cliente garantindo que ele use a URL base correta para autenticação
-            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-                auth: {
-                    autoRefreshToken: true,
-                    persistSession: true,
-                    detectSessionInUrl: true
-                }
-            });
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true
+            }
+        });
+
+        // Ocultar loader quando a página terminar de carregar totalmente
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2800); 
+        });
 
         // Controle do Menu Lateral
         const openMenu = document.getElementById('openMenu');
@@ -1018,7 +1022,7 @@
             mainAuthBtn.innerText = "Criar Nova Conta";
         });
 
-        // LÓGICA DE AUTENTICAÇÃO VIA E-MAIL (CADASTRO COM CONFIRMAÇÃO)
+        // LÓGICA DE AUTENTICAÇÃO VIA E-MAIL
         mainAuthBtn.addEventListener('click', async () => {
             const email = document.querySelector('input[type="email"]').value;
             const password = document.querySelector('input[type="password"]').value;
@@ -1029,7 +1033,6 @@
             }
 
             if (currentMode === 'register') {
-                // Envia e-mail de confirmação real para a caixa de entrada do usuário
                 const { data, error } = await supabaseClient.auth.signUp({
                     email: email,
                     password: password,
@@ -1041,7 +1044,6 @@
                     alert("Verifique sua caixa de entrada! Enviamos um e-mail de confirmação para validar o seu acesso.");
                 }
             } else {
-                // Login tradicional por senha
                 const { data, error } = await supabaseClient.auth.signInWithPassword({
                     email: email,
                     password: password,
@@ -1056,7 +1058,7 @@
             }
         });
 
-        // LÓGICA DE AUTENTICAÇÃO VIA GOOGLE RESTRICT OAUTH
+        // LÓGICA DE AUTENTICAÇÃO VIA GOOGLE
         const googleBtn = document.querySelector('.google-btn');
         googleBtn.addEventListener('click', async () => {
             const { data, error } = await supabaseClient.auth.signInWithOAuth({
