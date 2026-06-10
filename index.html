@@ -140,7 +140,7 @@
             filter: drop-shadow(0 0 8px var(--purple));
         }
 
-        /* --- BOTÃO HAMBÚRGUER FIXO --- */
+        /* --- BOTÃO HAMBÚRGUER FIXO (CANTO SUPERIOR DIREITO) --- */
         .menu-toggle {
             position: fixed;
             top: 2rem;
@@ -152,6 +152,8 @@
             justify-content: space-between;
             cursor: pointer;
             z-index: 100;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.6;
         }
 
         .menu-toggle span {
@@ -161,6 +163,18 @@
             background-color: var(--white);
             border-radius: 2px;
             transition: 0.3s ease;
+        }
+
+        /* Efeito HUD idêntico ao botão da sacola ao passar o mouse */
+        .menu-toggle:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px var(--purple));
+        }
+        
+        /* Força as linhas internas a mudarem de cor em sincronia */
+        .menu-toggle:hover span {
+            background-color: var(--purple);
         }
 
         /* --- OVERLAY DE NAVEGAÇÃO COMPLETA (ABAS + LOGIN) --- */
@@ -834,7 +848,7 @@
         <div class="logo-loader-glitch">INFORTIX</div>
     </div>
 
-    <a href="https://projeto-site-vendas-one.vercel.app/marketplace" class="marketplace-btn" title="Acessar Marketplace">
+    <a href="marketplace.html" class="marketplace-btn" title="Acessar Marketplace">
         <i class="fa-solid fa-bag-shopping"></i>
     </a>
 
