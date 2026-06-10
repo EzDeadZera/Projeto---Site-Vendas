@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700;900&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -117,6 +118,26 @@
         #loader.hidden {
             opacity: 0;
             visibility: hidden;
+        }
+
+        /* --- BOTÃO DE MARKETPLACE (CANTO SUPERIOR ESQUERDO) --- */
+        .marketplace-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+            color: var(--white);
+            font-size: 1.8rem;
+            text-decoration: none;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.6;
+        }
+
+        .marketplace-btn:hover {
+            opacity: 1;
+            color: var(--purple);
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px var(--purple));
         }
 
         /* --- BOTÃO HAMBÚRGUER FIXO --- */
@@ -679,6 +700,12 @@
 
         /* --- INTERFACE MOBILE RESPONSIVA E CORRIGIDA --- */
         @media (max-width: 768px) {
+            .marketplace-btn {
+                top: 1.5rem;
+                left: 1.5rem;
+                font-size: 1.5rem;
+            }
+
             .menu-toggle {
                 top: 1.5rem;
                 right: 1.5rem;
@@ -807,6 +834,10 @@
         <div class="logo-loader-glitch">INFORTIX</div>
     </div>
 
+    <a href="https://projeto-site-vendas-one.vercel.app/marketplace" class="marketplace-btn" title="Acessar Marketplace">
+        <i class="fa-solid fa-bag-shopping"></i>
+    </a>
+
     <div class="menu-toggle" id="openMenu">
         <span></span>
         <span></span>
@@ -833,7 +864,7 @@
                 <button class="submit-btn" id="mainAuthBtn">Entrar no Sistema</button>
                 
                 <button class="google-btn">
-                    <svg width="18" height="18" viewBox="0 0 18 18" style="display:inline-block; vertical-align:middle;">
+                    <svg width="18" height="18" viewBox="0 0 18 18" style="display:inline-block; vertical-align:middle; margin-right: 8px;">
                         <path fill="#EA4335" d="M9 3.6c1.6 0 3 .6 4.1 1.6l3.1-3.1C14.3.8 11.8 0 9 0 5.5 0 2.5 2 1 5l3.4 2.6C5.2 5 7 3.6 9 3.6z"/>
                         <path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.2-.2-1.7H9v3.3h4.8c-.2 1-.8 1.9-1.7 2.5l2.6 2c1.6-1.5 2.9-3.7 2.9-6.1z"/>
                         <path fill="#FBBC05" d="M4.4 10.4c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2L1 3.8C.3 5.1 0 6.5 0 8s.3 2.9 1 4.2l3.4-2.6z"/>
@@ -971,7 +1002,7 @@
     </div>
 
     <script>
-        // 1. CONEXÃO COM O SUPABASE (URL limpa sem barras ou diretórios sobressalentes)
+        // 1. CONEXÃO COM O SUPABASE
         const SUPABASE_URL = "https://iqdqkilhnzriljcxjjnv.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZHFraWxobnpyaWxqY3hqam52Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzExMDIsImV4cCI6MjA5NjUwNzEwMn0.-WPPCptTDxN9zzsQ3wUs44qxY0xfBgwmgFgJU07QQcU";
         
