@@ -128,25 +128,33 @@
             z-index: 10;
         }
 
+        /* --- SEÇÕES REPADRONIZADAS --- */
+        .market-section {
+            margin-bottom: 5rem;
+        }
+
         .market-headline {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
+            padding: 1rem 0;
         }
 
         .market-headline h2 {
             font-family: 'Oswald', sans-serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
             text-transform: uppercase;
             letter-spacing: -1px;
             line-height: 1.1;
+            color: #FFF;
         }
 
         .market-headline p {
-            font-size: 1rem;
-            color: rgba(207, 207, 207, 0.5);
+            font-size: 0.85rem;
+            color: rgba(207, 207, 207, 0.4);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 0.5rem;
+            letter-spacing: 3px;
+            margin-top: 0.6rem;
+            font-weight: 700;
         }
 
         /* --- GRID DE PRODUTOS --- */
@@ -261,29 +269,146 @@
             color: var(--black);
         }
 
+        /* --- ABA LATERAL DO CARRINHO (DRAWER) --- */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background-color: #0c0d10;
+            border-left: 2px solid var(--purple);
+            z-index: 2000;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 2rem;
+            border-bottom: 1px solid rgba(207,207,207,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .close-cart-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .close-cart-btn:hover {
+            color: var(--purple);
+        }
+
+        .cart-items-wrapper {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Mensagem quando o carrinho está vazio */
+        .empty-cart-msg {
+            text-align: center;
+            color: rgba(207,207,207,0.4);
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cart-footer {
+            padding: 2rem;
+            border-top: 1px solid rgba(207,207,207,0.1);
+            background-color: #111217;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .total-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(207,207,207,0.6);
+        }
+
+        .total-price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--purple);
+            color: var(--white);
+            font-weight: 900;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: 0.2s;
+        }
+
+        .checkout-btn:hover {
+            filter: brightness(1.2);
+        }
+
+        /* Fundo escuro quando o carrinho abre */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+
+        .cart-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* --- RESPONSIVIDADE MOBILE --- */
         @media (max-width: 768px) {
-            header {
-                padding: 1.5rem 1rem;
-            }
-            .back-home-btn, .cart-btn {
-                font-size: 1.5rem;
-            }
-            .market-logo {
-                font-size: 2rem;
-            }
-            main {
-                padding: 0 1rem 4rem 1rem;
-            }
-            .market-headline {
-                margin-bottom: 2.5rem;
-            }
-            .products-grid {
-                gap: 1.5rem;
-            }
-            .product-img-holder {
-                height: 240px;
-            }
+            header { padding: 1.5rem 1rem; }
+            .back-home-btn, .cart-btn { font-size: 1.5rem; }
+            .market-logo { font-size: 2rem; }
+            main { padding: 0 1rem 4rem 1rem; }
+            .market-section { margin-bottom: 3.5rem; }
+            .products-grid { gap: 1.5rem; }
+            .product-img-holder { height: 240px; }
+            .cart-sidebar { width: 100%; right: -100%; }
         }
     </style>
 </head>
@@ -291,90 +416,199 @@
 
     <div class="bg-lines"></div>
 
+    <!-- CABEÇALHO SUPERIOR -->
     <header>
         <a href="index.html" class="back-home-btn" title="Voltar para Home">
             <i class="fa-solid fa-arrow-left"></i>
         </a>
         <h1 class="market-logo">INFORTIX <span>// MARKET</span></h1>
-        <button class="cart-btn" title="Ver Carrinho">
+        <button class="cart-btn" id="openCartBtn" title="Ver Carrinho">
             <i class="fa-solid fa-cart-shopping"></i>
             <span class="cart-count" id="cartCount">0</span>
         </button>
     </header>
 
+    <!-- INTERFACE DO CARRINHO LATERAL -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Seu Carrinho</h3>
+            <button class="close-cart-btn" id="closeCartBtn">✕</button>
+        </div>
+        <div class="cart-items-wrapper" id="cartItemsContainer">
+            <p class="empty-cart-msg">O carrinho está vazio</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span class="total-label">Total acumulado:</span>
+                <span class="total-price" id="cartTotalPrice">R$ 0</span>
+            </div>
+            <button class="checkout-btn">Finalizar Pedido</button>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO DA VITRINE -->
     <main>
-        <div class="market-headline">
-            <h2>PRODUTOS EM DESTAQUE</h2>
-            <p>Contratos, Chaves Universais e Licenças Ops</p>
-        </div>
+        
+        <!-- SEÇÃO 1: PRODUTOS EM DESTAQUE -->
+        <section class="market-section">
+            <div class="market-headline">
+                <h2>PRODUTOS EM DESTAQUE</h2>
+                <p>Contratos, Chaves Universais e Licenças Ops</p>
+            </div>
 
-        <div class="products-grid">
-            
-            <div class="product-card">
-                <span class="product-badge">Licença</span>
-                <div class="product-img-holder">
-                    <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=INFORTIX+PRODUCT" alt="Produto">
+            <div class="products-grid">
+                <div class="product-card">
+                    <span class="product-badge">Licença</span>
+                    <div class="product-img-holder">
+                        <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=Licenca+Server" alt="Acesso Full Server">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-title">Acesso Full Server Engine</h4>
+                        <div class="product-meta">
+                            <span class="product-price">R$ 150</span>
+                            <button class="product-buy-btn" onclick="addItemToCart('Acesso Full Server Engine', 150)">Adicionar</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="product-info">
-                    <h4 class="product-title">Acesso Full Server Engine</h4>
-                    <div class="product-meta">
-                        <span class="product-price">R$ 150</span>
-                        <button class="product-buy-btn" onclick="addToCart()">Adicionar</button>
+
+                <div class="product-card">
+                    <span class="product-badge">Roblox Legacy</span>
+                    <div class="product-img-holder">
+                        <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=Roblox+Conta" alt="Conta Raridade">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-title">Conta Raridade Vetusta</h4>
+                        <div class="product-meta">
+                            <span class="product-price">R$ 450</span>
+                            <button class="product-buy-btn" onclick="addItemToCart('Conta Raridade Vetusta', 450)">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <span class="product-badge">Hardware</span>
+                    <div class="product-img-holder">
+                        <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=Script+Injetor" alt="Injetor Script">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-title">Injetor de Script Dedicado</h4>
+                        <div class="product-meta">
+                            <span class="product-price">R$ 640</span>
+                            <button class="product-buy-btn" onclick="addItemToCart('Injetor de Script Dedicado', 640)">Adicionar</button>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="product-card">
-                <span class="product-badge">Serviço</span>
-                <div class="product-img-holder">
-                    <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=INFORTIX+PRODUCT" alt="Produto">
+        <!-- SEÇÃO 2: SERVIÇOS EM DESTAQUE -->
+        <section class="market-section">
+            <div class="market-headline">
+                <h2>SERVIÇOS EM DESTAQUE</h2>
+                <p>Consultorias, Manutenções Críticas e Engenharia Cloud</p>
+            </div>
+
+            <div class="products-grid">
+                <div class="product-card">
+                    <span class="product-badge">Segurança</span>
+                    <div class="product-img-holder">
+                        <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=Backup+Módulo" alt="Módulo Backup">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-title">Módulo de Backup Criptografado</h4>
+                        <div class="product-meta">
+                            <span class="product-price">R$ 320</span>
+                            <button class="product-buy-btn" onclick="addItemToCart('Módulo de Backup Criptografado', 320)">Adicionar</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="product-info">
-                    <h4 class="product-title">Módulo de Backup Criptografado</h4>
-                    <div class="product-meta">
-                        <span class="product-price">R$ 320</span>
-                        <button class="product-buy-btn" onclick="addToCart()">Adicionar</button>
+
+                <div class="product-card">
+                    <span class="product-badge">Infraestrutura</span>
+                    <div class="product-img-holder">
+                        <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=Consultoria+Infra" alt="Consultoria">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-title">Consultoria Estrutural Overhaul</h4>
+                        <div class="product-meta">
+                            <span class="product-price">R$ 800</span>
+                            <button class="product-buy-btn" onclick="addItemToCart('Consultoria Estrutural Overhaul', 800)">Adicionar</button>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="product-card">
-                <span class="product-badge">Hardware</span>
-                <div class="product-img-holder">
-                    <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=INFORTIX+PRODUCT" alt="Produto">
-                </div>
-                <div class="product-info">
-                    <h4 class="product-title">Injetor de Script Dedicado</h4>
-                    <div class="product-meta">
-                        <span class="product-price">R$ 640</span>
-                        <button class="product-buy-btn" onclick="addToCart()">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <span class="product-badge">Roblox Legacy</span>
-                <div class="product-img-holder">
-                    <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=INFORTIX+PRODUCT" alt="Produto">
-                </div>
-                <div class="product-info">
-                    <h4 class="product-title">Conta Raridade Vetusta</h4>
-                    <div class="product-meta">
-                        <span class="product-price">R$ 450</span>
-                        <button class="product-buy-btn" onclick="addToCart()">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </main>
 
     <script>
-        // Funçãozinha simples apenas para simular o funcionamento do contador do carrinho
-        let currentItems = 0;
-        function addToCart() {
-            currentItems++;
-            document.getElementById('cartCount').innerText = currentItems;
+        // MECANISMO INTERNO DO CARRINHO (ESTRUTURA BASE DE DADOS EM MEMÓRIA)
+        let cart = [];
+
+        const openCartBtn = document.getElementById('openCartBtn');
+        const closeCartBtn = document.getElementById('closeCartBtn');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartOverlay = document.getElementById('cartOverlay');
+
+        // Alternadores de Abertura/Fechamento da Interface Lateral
+        openCartBtn.addEventListener('click', () => {
+            cartSidebar.classList.add('open');
+            cartOverlay.classList.add('visible');
+        });
+
+        const closeCart = () => {
+            cartSidebar.classList.remove('open');
+            cartOverlay.classList.remove('visible');
+        };
+
+        closeCartBtn.addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+
+        // Adicionar itens dinamicamente
+        function addItemToCart(name, price) {
+            cart.push({ name, price });
+            updateCartUI();
+        }
+
+        // Atualizar o contador, somar preços e renderizar a lista
+        function updateCartUI() {
+            const countEl = document.getElementById('cartCount');
+            const itemsContainer = document.getElementById('cartItemsContainer');
+            const totalEl = document.getElementById('cartTotalPrice');
+
+            countEl.innerText = cart.length;
+
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = '<p class="empty-cart-msg">O carrinho está vazio</p>';
+                totalEl.innerText = 'R$ 0';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#1c1e24; padding:12px; border-radius:4px; border-left:3px solid var(--purple);">
+                        <div>
+                            <h5 style="font-size:0.95rem; font-weight:700; text-transform:uppercase; margin-bottom:4px; max-width:220px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.name}</h5>
+                            <span style="color:var(--purple); font-weight:900; font-size:0.9rem;">R$ ${item.price}</span>
+                        </div>
+                        <button onclick="removeItemFromCart(${index})" style="background:none; border:none; color:rgba(207,207,207,0.4); cursor:pointer; font-size:1rem; transition:0.2s;" onmouseover="this.style.color='#EA4335'" onmouseout="this.style.color='rgba(207,207,207,0.4)'">✕</button>
+                    </div>
+                `;
+            });
+
+            itemsContainer.innerHTML = html;
+            totalEl.innerText = 'R$ ' + total;
+        }
+
+        // Remover item específico da lista
+        function removeItemFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
         }
     </script>
 </body>
