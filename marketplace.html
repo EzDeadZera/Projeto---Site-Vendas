@@ -2,46 +2,380 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>INFORTIX - Marketplace</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700;900&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
-        body {
-            background-color: #141414;
-            color: #CFCFCF;
+        :root {
+            --purple: #7F49B4;
+            --black: #141414;
+            --white: #CFCFCF;
+            --dark-gray: #191b22;
+            --card-bg: #1c1e24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* --- COMPONENTES DE EFEITO SCANLINES --- */
+        .bg-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 6px 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* --- HEADER COM BOTÕES HUD --- */
+        header {
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .back-home-btn {
+            color: var(--white);
+            font-size: 1.8rem;
+            text-decoration: none;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.6;
+        }
+
+        .back-home-btn:hover {
+            opacity: 1;
+            color: var(--purple);
+            transform: scale(1.1) translateX(-3px);
+            filter: drop-shadow(0 0 8px var(--purple));
+        }
+
+        .market-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 0px var(--purple);
+            text-align: center;
+        }
+
+        .market-logo span {
+            color: var(--purple);
+            font-family: 'Oswald', sans-serif;
+            text-shadow: none;
+        }
+
+        .cart-btn {
+            color: var(--white);
+            font-size: 1.6rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.6;
+            position: relative;
+        }
+
+        .cart-btn:hover {
+            opacity: 1;
+            color: var(--purple);
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px var(--purple));
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background-color: var(--purple);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        /* --- CONTEÚDO PRINCIPAL --- */
+        main {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 2rem 5rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .market-headline {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .market-headline h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .market-headline p {
+            font-size: 1rem;
+            color: rgba(207, 207, 207, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+        }
+
+        /* --- GRID DE PRODUTOS --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 6px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+        }
+
+        .product-img-holder {
+            width: 100%;
+            height: 280px;
+            background-color: #121318;
+            display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(207,207,207,0.05);
         }
-        h1 {
+
+        .product-img-holder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img-holder img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: var(--black);
+            color: var(--white);
+            border-left: 3px solid var(--purple);
+            font-size: 0.7rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+            gap: 1.2rem;
+        }
+
+        .product-title {
             font-family: 'Oswald', sans-serif;
-            font-size: 3rem;
-            color: #7F49B4;
-            text-shadow: 2px 2px 0px #fff;
-            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            color: var(--white);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
         }
-        a {
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 900;
             color: #fff;
-            text-decoration: none;
-            border: 2px solid #7F49B4;
-            padding: 10px 20px;
-            border-radius: 4px;
-            transition: 0.3s;
         }
-        a:hover {
-            background-color: #7F49B4;
+
+        .product-buy-btn {
+            background-color: var(--purple);
+            color: var(--white);
+            border: none;
+            padding: 10px 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: 0.2s ease;
+        }
+
+        .product-buy-btn:hover {
+            background-color: var(--white);
+            color: var(--black);
+        }
+
+        /* --- RESPONSIVIDADE MOBILE --- */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 1rem;
+            }
+            .back-home-btn, .cart-btn {
+                font-size: 1.5rem;
+            }
+            .market-logo {
+                font-size: 2rem;
+            }
+            main {
+                padding: 0 1rem 4rem 1rem;
+            }
+            .market-headline {
+                margin-bottom: 2.5rem;
+            }
+            .products-grid {
+                gap: 1.5rem;
+            }
+            .product-img-holder {
+                height: 240px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>MARKETPLACE INICIALIZADO</h1>
-    <p style="margin-bottom: 2rem;">Mande a sua ideia de design e funcionalidades para começarmos a estruturar a loja aqui!</p>
-    <a href="index.html">← Voltar para a Home</a>
+
+    <div class="bg-lines"></div>
+
+    <header>
+        <a href="index.html" class="back-home-btn" title="Voltar para Home">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <h1 class="market-logo">INFORTIX <span>// MARKET</span></h1>
+        <button class="cart-btn" title="Ver Carrinho">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-count" id="cartCount">0</span>
+        </button>
+    </header>
+
+    <main>
+        <div class="market-headline">
+            <h2>PRODUTOS EM DESTAQUE</h2>
+            <p>Contratos, Chaves Universais e Licenças Ops</p>
+        </div>
+
+        <div class="products-grid">
+            
+            <div class="product-card">
+                <span class="product-badge">Licença</span>
+                <div class="product-img-holder">
+                    <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=INFORTIX+PRODUCT" alt="Produto">
+                </div>
+                <div class="product-info">
+                    <h4 class="product-title">Acesso Full Server Engine</h4>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 150</span>
+                        <button class="product-buy-btn" onclick="addToCart()">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <span class="product-badge">Serviço</span>
+                <div class="product-img-holder">
+                    <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=INFORTIX+PRODUCT" alt="Produto">
+                </div>
+                <div class="product-info">
+                    <h4 class="product-title">Módulo de Backup Criptografado</h4>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 320</span>
+                        <button class="product-buy-btn" onclick="addToCart()">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <span class="product-badge">Hardware</span>
+                <div class="product-img-holder">
+                    <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=INFORTIX+PRODUCT" alt="Produto">
+                </div>
+                <div class="product-info">
+                    <h4 class="product-title">Injetor de Script Dedicado</h4>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 640</span>
+                        <button class="product-buy-btn" onclick="addToCart()">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <span class="product-badge">Roblox Legacy</span>
+                <div class="product-img-holder">
+                    <img src="https://via.placeholder.com/400x400/121318/7F49B4?text=INFORTIX+PRODUCT" alt="Produto">
+                </div>
+                <div class="product-info">
+                    <h4 class="product-title">Conta Raridade Vetusta</h4>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 450</span>
+                        <button class="product-buy-btn" onclick="addToCart()">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Funçãozinha simples apenas para simular o funcionamento do contador do carrinho
+        let currentItems = 0;
+        function addToCart() {
+            currentItems++;
+            document.getElementById('cartCount').innerText = currentItems;
+        }
+    </script>
 </body>
 </html>
