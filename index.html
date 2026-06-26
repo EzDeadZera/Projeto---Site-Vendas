@@ -120,31 +120,11 @@
             visibility: hidden;
         }
 
-        /* --- BOTÃO DE MARKETPLACE (CANTO SUPERIOR ESQUERDO) --- */
-        .marketplace-btn {
-            position: fixed;
-            top: 2rem;
-            left: 2rem;
-            z-index: 100;
-            color: var(--white);
-            font-size: 1.8rem;
-            text-decoration: none;
-            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0.6;
-        }
-
-        .marketplace-btn:hover {
-            opacity: 1;
-            color: var(--purple);
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 8px var(--purple));
-        }
-
-        /* --- BOTÃO HAMBÚRGUER FIXO (CANTO SUPERIOR DIREITO) --- */
+        /* --- BOTÃO DE HAMBÚRGUER FIXO (INVERTIDO: AGORA NO CANTO SUPERIOR ESQUERDO) --- */
         .menu-toggle {
             position: fixed;
             top: 2rem;
-            right: 2rem;
+            left: 2rem;
             width: 40px;
             height: 30px;
             display: flex;
@@ -165,16 +145,34 @@
             transition: 0.3s ease;
         }
 
-        /* Efeito HUD idêntico ao botão da sacola ao passar o mouse */
         .menu-toggle:hover {
             opacity: 1;
             transform: scale(1.1);
             filter: drop-shadow(0 0 8px var(--purple));
         }
         
-        /* Força as linhas internas a mudarem de cor em sincronia */
         .menu-toggle:hover span {
             background-color: var(--purple);
+        }
+
+        /* --- BOTÃO DE MARKETPLACE (INVERTIDO: AGORA NO CANTO SUPERIOR DIREITO) --- */
+        .marketplace-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 100;
+            color: var(--white);
+            font-size: 1.8rem;
+            text-decoration: none;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.6;
+        }
+
+        .marketplace-btn:hover {
+            opacity: 1;
+            color: var(--purple);
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px var(--purple));
         }
 
         /* --- OVERLAY DE NAVEGAÇÃO COMPLETA (ABAS + LOGIN) --- */
@@ -519,7 +517,7 @@
             filter: contrast(1.1) brightness(0.9);
         }
 
-        /* --- SEÇÃO DA LOJA (OTIMIZADA) --- */
+        /* --- SEÇÃO DOS SERVIÇOS (REESTRUTURADA E DO FINAL) --- */
         .shop-section-container {
             width: 100%;
             max-width: 1200px;
@@ -712,17 +710,17 @@
             60% { transform: translate(-50%, -5px); }
         }
 
-        /* --- INTERFACE MOBILE RESPONSIVA E CORRIGIDA --- */
+        /* --- INTERFACE MOBILE RESPONSIVA --- */
         @media (max-width: 768px) {
-            .marketplace-btn {
-                top: 1.5rem;
-                left: 1.5rem;
-                font-size: 1.5rem;
-            }
-
             .menu-toggle {
                 top: 1.5rem;
+                left: 1.5rem;
+            }
+
+            .marketplace-btn {
+                top: 1.5rem;
                 right: 1.5rem;
+                font-size: 1.5rem;
             }
 
             .nav-overlay {
@@ -844,20 +842,24 @@
     <div class="bg-lines"></div>
     <div class="scroll-indicator" id="scrollInd">Deslize para baixo ↓</div>
 
+    <!-- TELA DE CARREGAMENTO -->
     <div id="loader">
         <div class="logo-loader-glitch">INFORTIX</div>
     </div>
 
-    <a href="marketplace.html" class="marketplace-btn" title="Acessar Marketplace">
-        <i class="fa-solid fa-bag-shopping"></i>
-    </a>
-
+    <!-- BOTÃO DE HAMBÚRGUER FIXO (AGORA NO CANTO SUPERIOR ESQUERDO) -->
     <div class="menu-toggle" id="openMenu">
         <span></span>
         <span></span>
         <span></span>
     </div>
 
+    <!-- BOTÃO DO MARKETPLACE (AGORA NO CANTO SUPERIOR DIREITO) -->
+    <a href="marketplace.html" class="marketplace-btn" title="Acessar Marketplace">
+        <i class="fa-solid fa-bag-shopping"></i>
+    </a>
+
+    <!-- OVERLAY LATERAL (LOGIN / CADASTRO) -->
     <div class="nav-overlay" id="navOverlay">
         <div class="overlay-left">
             <div class="menu-logo-badge">INFORTIX</div>
@@ -888,15 +890,17 @@
                 </button>
 
                 <a class="shop-nav-link" id="goToShopBtn">
-                    <span>Acessar Loja Oficial</span>
+                    <span>Acessar Serviços Especializados</span>
                     <span>→</span>
                 </a>
             </div>
         </div>
     </div>
 
+    <!-- CONTAINER DE ROLAGEM PRINCIPAL -->
     <div class="scroll-container" id="mainScrollContainer">
         
+        <!-- SEÇÃO 1: HERO -->
         <section class="hero-section">
             <div>
                 <h1 class="gta-title">INFORTIX</h1>
@@ -904,6 +908,7 @@
             </div>
         </section>
 
+        <!-- SEÇÃO 2: MATTEO -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -922,6 +927,7 @@
             </div>
         </section>
 
+        <!-- SEÇÃO 3: GABRIEL -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -940,6 +946,7 @@
             </div>
         </section>
 
+        <!-- SEÇÃO 4: MATHEUS -->
         <section>
             <div class="service-section">
                 <div class="image-container">
@@ -958,22 +965,24 @@
             </div>
         </section>
 
+        <!-- SEÇÃO 5: SEÇÃO DE SERVIÇOS REESTRUTURADA -->
         <section id="shopSection">
             <div class="shop-section-container">
                 <div class="shop-header">
-                    <h2>LOJA <span>// OFICIAL</span></h2>
-                    <span>CONTRATOS E SUPRIMENTOS</span>
+                    <h2>SERVIÇOS <span>// EM DESTAQUE</span></h2>
+                    <span>SOLUÇÕES E INFRAESTRUTURA</span>
                 </div>
                 
                 <div class="shop-grid">
+                    <!-- SERVIÇO 1 -->
                     <div class="product-card">
                         <div class="product-img-holder">
                             IX-1
                             <span class="product-badge">Serviço Dedicado</span>
                         </div>
                         <div class="product-details">
-                            <h4 class="product-name">Consultoria Infraestrutura</h4>
-                            <p class="product-desc">Análise completa de servidores, networks corporativas e blindagem técnica sob medida.</p>
+                            <h4 class="product-name">Soluções de Computadores</h4>
+                            <p class="product-desc">Diagnóstico avançado de falhas ocultas, otimização de performance ao nível extremo do hardware e restauração completa de estações críticas operacionais.</p>
                             <div class="product-footer">
                                 <span class="product-price">R$ 450</span>
                                 <button class="buy-btn">Contratar</button>
@@ -981,14 +990,15 @@
                         </div>
                     </div>
 
+                    <!-- SERVIÇO 2 -->
                     <div class="product-card">
                         <div class="product-img-holder">
                             IX-2
                             <span class="product-badge">Especial</span>
                         </div>
                         <div class="product-details">
-                            <h4 class="product-name">Plano de Manutenção Anual</h4>
-                            <p class="product-desc">Suporte preventivo total de hardware e software com resposta de emergência prioritária.</p>
+                            <h4 class="product-name">Instalações Externas</h4>
+                            <p class="product-desc">Montagem e calibração física de redes locais, roteamento estruturado blindado contra interferências e posicionamento estratégico de setups computacionais externos.</p>
                             <div class="product-footer">
                                 <span class="product-price">R$ 1.200</span>
                                 <button class="buy-btn">Adquirir</button>
@@ -996,14 +1006,15 @@
                         </div>
                     </div>
 
+                    <!-- SERVIÇO 3 -->
                     <div class="product-card">
                         <div class="product-img-holder">
                             IX-3
                             <span class="product-badge">Cyber</span>
                         </div>
                         <div class="product-details">
-                            <h4 class="product-name">Hospedagem & Dev Engine</h4>
-                            <p class="product-desc">Desenvolvimento ágil de Landing Pages agressivas e otimizadas com deploy automatizado em cloud.</p>
+                            <h4 class="product-name">Software Engineering</h4>
+                            <p class="product-desc">Engenharia pura aplicada no desenvolvimento de aplicações ágeis, microsserviços integrados de alta disponibilidade e estruturação de arquiteturas serverless seguras.</p>
                             <div class="product-footer">
                                 <span class="product-price">R$ 890</span>
                                 <button class="buy-btn">Contratar</button>
@@ -1016,7 +1027,7 @@
     </div>
 
     <script>
-        // 1. CONEXÃO COM O SUPABASE
+        // CONEXÃO COM O SUPABASE
         const SUPABASE_URL = "https://iqdqkilhnzriljcxjjnv.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZHFraWxobnpyaWxqY3hqam52Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzExMDIsImV4cCI6MjA5NjUwNzEwMn0.-WPPCptTDxN9zzsQ3wUs44qxY0xfBgwmgFgJU07QQcU";
         
@@ -1028,7 +1039,6 @@
             }
         });
 
-        // Ocultar loader quando a página terminar de carregar totalmente
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
@@ -1116,7 +1126,7 @@
             if (error) alert("Erro ao autenticar com o Google: " + error.message);
         });
 
-        // Link Rolar para Loja
+        // Link Rolar para Seção de Serviços
         const goToShopBtn = document.getElementById('goToShopBtn');
         const shopSection = document.getElementById('shopSection');
         const mainScrollContainer = document.getElementById('mainScrollContainer');
