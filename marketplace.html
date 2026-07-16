@@ -353,7 +353,7 @@
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: rgba(207,207,207,0.6);
+            color: rgba(207, 207, 207, 0.6);
         }
 
         .total-price {
@@ -416,7 +416,6 @@
 
     <div class="bg-lines"></div>
 
-    <!-- CABEÇALHO SUPERIOR -->
     <header>
         <a href="index.html" class="back-home-btn" title="Voltar para Home">
             <i class="fa-solid fa-arrow-left"></i>
@@ -428,7 +427,6 @@
         </button>
     </header>
 
-    <!-- INTERFACE DO CARRINHO LATERAL -->
     <div class="cart-overlay" id="cartOverlay"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
@@ -443,14 +441,12 @@
                 <span class="total-label">Total acumulado:</span>
                 <span class="total-price" id="cartTotalPrice">R$ 0</span>
             </div>
-            <button class="checkout-btn">Finalizar Pedido</button>
+            <button class="checkout-btn" id="checkoutBtn">Finalizar Pedido</button>
         </div>
     </div>
 
-    <!-- CONTEÚDO DA VITRINE -->
     <main>
         
-        <!-- SEÇÃO 1: PRODUTOS EM DESTAQUE -->
         <section class="market-section">
             <div class="market-headline">
                 <h2>PRODUTOS EM DESTAQUE</h2>
@@ -466,7 +462,7 @@
                     <div class="product-info">
                         <h4 class="product-title">Monte seu PC</h4>
                         <div class="product-meta">
-                            <span class="product-price">R$ 1500 (Variável)</span>
+                            <span class="product-price">R$ 1500</span>
                             <button class="product-buy-btn" onclick="addItemToCart('Monte seu PC', 1500)">Adicionar</button>
                         </div>
                     </div>
@@ -502,7 +498,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 2: SERVIÇOS EM DESTAQUE -->
         <section class="market-section">
             <div class="market-headline">
                 <h2>SERVIÇOS EM DESTAQUE</h2>
@@ -543,6 +538,10 @@
     </main>
 
     <script>
+        // CONFIGURAÇÕES GERAIS
+        // Insira o seu número do WhatsApp aqui (Exemplo: 55 + DDD + Numero completo, sem espaços ou traços)
+        const WHATSAPP_PHONE = "554796339196"; 
+
         // MECANISMO INTERNO DO CARRINHO (ESTRUTURA BASE DE DADOS EM MEMÓRIA)
         let cart = [];
 
@@ -550,6 +549,7 @@
         const closeCartBtn = document.getElementById('closeCartBtn');
         const cartSidebar = document.getElementById('cartSidebar');
         const cartOverlay = document.getElementById('cartOverlay');
+        const checkoutBtn = document.getElementById('checkoutBtn');
 
         // Alternadores de Abertura/Fechamento da Interface Lateral
         openCartBtn.addEventListener('click', () => {
@@ -577,7 +577,7 @@
             const itemsContainer = document.getElementById('cartItemsContainer');
             const totalEl = document.getElementById('cartTotalPrice');
 
-            countEl.innerText = cart.length;
+            countEl.innerText = Math.round(cart.length);
 
             if (cart.length === 0) {
                 itemsContainer.innerHTML = '<p class="empty-cart-msg">O carrinho está vazio</p>';
@@ -610,6 +610,48 @@
             cart.splice(index, 1);
             updateCartUI();
         }
+
+        // LÓGICA DE INTEGRAÇÃO COM O WHATSAPP ao fechar o pedido
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert("Seu carrinho está vazio! Adicione algum produto ou serviço antes de finalizar.");
+                return;
+            }
+
+            // 1. Mensagem de introdução
+            let message = "Olá, INFORTIX! Gostaria de fechar um pedido através do Marketplace. Seguem os detalhes:\n\n";
+            message += "=============================\n";
+            
+            let total = 0;
+
+            // 2. Agrupar itens repetidos para exibir quantidade
+            const itemCounts = {};
+            cart.forEach(item => {
+                if (itemCounts[item.name]) {
+                    itemCounts[item.name].quantity++;
+                    itemCounts[item.name].subtotal += item.price;
+                } else {
+                    itemCounts[item.name] = { quantity: 1, price: item.price, subtotal: item.price };
+                }
+                total += item.price;
+            });
+
+            // 3. Montar lista de produtos formatada
+            for (const [name, info] of Object.entries(itemCounts)) {
+                message += `📦 *${name}* \n`;
+                message += `   Qtd: ${info.quantity}x - R$ ${info.price} (Subtotal: R$ ${info.subtotal})\n\n`;
+            }
+
+            message += "=============================\n";
+            message += `💰 *Valor Total do Pedido:* R$ ${total}\n\n`;
+            message += "Por favor, aguardo as instruções para o pagamento e liberação de acesso!";
+
+            // 4. Codificar a URL e abrir o WhatsApp
+            const encodedText = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${554796339196}?text=${encodedText}`;
+
+            window.open(whatsappUrl, '_blank');
+        });
     </script>
 </body>
 </html>
