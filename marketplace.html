@@ -6,7 +6,7 @@
     <title>INFORTIX - Marketplace</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700;900&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght=700;900&family=Inter:wght=300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -269,13 +269,15 @@
             color: var(--black);
         }
 
-        /* --- ABA LATERAL DO CARRINHO (DRAWER) --- */
+        /* --- ABA LATERAL DO CARRINHO (DRAWER AJUSTADA) --- */
         .cart-sidebar {
             position: fixed;
             top: 0;
             right: -400px;
             width: 400px;
-            height: 100vh;
+            height: 100%;
+            height: -webkit-fill-available; /* Evita que o menu suma no Safari Mobile */
+            max-height: 100vh;
             background-color: #0c0d10;
             border-left: 2px solid var(--purple);
             z-index: 2000;
@@ -283,6 +285,7 @@
             transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             flex-direction: column;
+            overflow: hidden; /* Garante que nada transborde da barra */
         }
 
         .cart-sidebar.open {
@@ -290,16 +293,17 @@
         }
 
         .cart-header {
-            padding: 2rem;
+            padding: 1.5rem;
             border-bottom: 1px solid rgba(207,207,207,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0; /* Impede o header de encolher no mobile */
         }
 
         .cart-header h3 {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             text-transform: uppercase;
             letter-spacing: -0.5px;
         }
@@ -319,13 +323,15 @@
 
         .cart-items-wrapper {
             flex: 1;
-            padding: 2rem;
+            padding: 1.5rem;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.2rem;
+            -webkit-overflow-scrolling: touch; /* Rolar suave no iOS */
         }
 
+        /* Mensagem quando o carrinho está vazio */
         .empty-cart-msg {
             text-align: center;
             color: rgba(207,207,207,0.4);
@@ -336,34 +342,36 @@
         }
 
         .cart-footer {
-            padding: 2rem;
+            padding: 1.5rem;
             border-top: 1px solid rgba(207,207,207,0.1);
             background-color: #111217;
+            flex-shrink: 0; /* Mantém o rodapé sempre no tamanho certo sem encolher */
+            margin-top: auto;
         }
 
         .cart-total-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .total-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: rgba(207, 207, 207, 0.6);
         }
 
         .total-price {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 900;
             color: #fff;
         }
 
         .checkout-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background-color: var(--purple);
             color: var(--white);
             font-weight: 900;
@@ -373,12 +381,14 @@
             cursor: pointer;
             letter-spacing: 1px;
             transition: 0.2s;
+            font-size: 0.95rem;
         }
 
         .checkout-btn:hover {
             filter: brightness(1.2);
         }
 
+        /* Fundo escuro quando o carrinho abre */
         .cart-overlay {
             position: fixed;
             top: 0;
@@ -397,187 +407,111 @@
             visibility: visible;
         }
 
-        /* --- OVERLAY DE ANIMAÇÃO DO ENVELOPE --- */
-        .envelope-modal-overlay {
+        /* --- ESTILIZAÇÃO DA ANIMAÇÃO DA CARTA --- */
+        .animation-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
+            width: 100%;
             height: 100vh;
-            background: rgba(12, 13, 16, 0.92);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
+            background-color: rgba(12, 13, 16, 0.9);
+            z-index: 3000;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             opacity: 0;
-            pointer-events: none;
+            visibility: hidden;
             transition: opacity 0.4s ease;
         }
 
-        .envelope-modal-overlay.active {
+        .animation-overlay.active {
             opacity: 1;
-            pointer-events: all;
+            visibility: visible;
         }
 
-        .envelope-status-text {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.3rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--purple);
-            margin-top: 2rem;
-            text-shadow: 0 0 10px rgba(127, 73, 180, 0.5);
-            animation: textPulse 1s infinite alternate;
-        }
-
-        @keyframes textPulse {
-            from { opacity: 0.6; }
-            to { opacity: 1; filter: drop-shadow(0 0 8px var(--purple)); }
-        }
-
-        .envelope-wrapper {
+        .mail-container {
             position: relative;
-            width: 280px;
-            height: 180px;
-            background-color: #181a20;
-            border-radius: 0 0 8px 8px;
-            border: 2px solid var(--purple);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(127, 73, 180, 0.3);
+            width: 300px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
         }
 
-        .envelope-wrapper .paper {
+        /* Folha do pedido */
+        .order-sheet {
             position: absolute;
-            top: 10px;
-            left: 5%;
-            width: 90%;
+            width: 240px;
             height: 160px;
-            background-color: #222530;
-            border: 1px dashed var(--purple);
+            background-color: #252830;
+            border: 2px solid var(--purple);
             border-radius: 4px;
-            padding: 12px;
-            box-sizing: border-box;
+            bottom: 40px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            gap: 8px;
             z-index: 1;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
         }
 
-        .paper-header {
-            font-family: 'Oswald', sans-serif;
-            font-size: 0.8rem;
-            color: var(--purple);
-            border-bottom: 1px solid rgba(127, 73, 180, 0.3);
-            padding-bottom: 4px;
-        }
-
-        .paper-line {
-            height: 4px;
+        .order-sheet .line {
+            height: 8px;
             background-color: rgba(207, 207, 207, 0.2);
-            border-radius: 2px;
-            margin: 4px 0;
+            border-radius: 4px;
+        }
+        .order-sheet .line.short { width: 60%; }
+        .order-sheet .line.purple-line { background-color: var(--purple); width: 40%; height: 12px;}
+
+        /* Envelope */
+        .envelope {
+            position: relative;
+            width: 280px;
+            height: 160px;
+            background-color: #1c1e24;
+            border: 2px solid var(--purple);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 2;
+            overflow: hidden;
         }
 
-        .envelope-wrapper .lid {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 140px solid transparent;
-            border-right: 140px solid transparent;
-            border-top: 100px solid #20232c;
-            transform-origin: top;
-            transition: transform 0.6s ease 0.8s;
-            z-index: 3;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-        }
-
-        .envelope-wrapper .lid::after {
+        /* Detalhe triangular do envelope cortado */
+        .envelope::before {
             content: '';
             position: absolute;
-            top: -100px;
-            left: -140px;
-            width: 0;
-            height: 0;
-            border-left: 140px solid transparent;
-            border-right: 140px solid transparent;
-            border-top: 100px solid var(--purple);
-            opacity: 0.3;
+            top: -2px;
+            left: -2px;
+            width: 280px;
+            height: 90px;
+            background-color: #14161a;
+            border-bottom: 2px solid var(--purple);
+            border-left: 2px solid var(--purple);
+            border-right: 2px solid var(--purple);
+            transform: skewY(15deg);
+            transform-origin: top left;
         }
 
-        .envelope-wrapper .pocket {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 140px solid #16181f;
-            border-right: 140px solid #16181f;
-            border-bottom: 95px solid #1c1e27;
-            border-radius: 0 0 6px 6px;
-            z-index: 2;
+        /* Classes de gatilho das animações */
+        .mail-container.start-anim .order-sheet {
+            animation: insertOrder 1.2s forwards cubic-bezier(0.55, 0, 0.1, 1);
         }
 
-        .envelope-wrapper .seal {
-            position: absolute;
-            top: 70px;
-            left: calc(50% - 18px);
-            width: 36px;
-            height: 36px;
-            background: var(--purple);
-            border-radius: 50%;
-            z-index: 4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 0.9rem;
-            box-shadow: 0 0 10px var(--purple);
-            opacity: 0;
-            transform: scale(0);
-            transition: all 0.4s ease 1.3s;
+        .mail-container.start-anim {
+            animation: flyUp 1s 1.3s forwards cubic-bezier(0.6, -0.28, 0.735, 0.045);
         }
 
-        /* --- CLASSES DE ANIMAÇÃO DISPARADAS PELO JS --- */
-        
-        /* 1. Folha descendo pra dentro da carta */
-        .envelope-wrapper.animating .paper {
-            transform: translateY(35px) scale(0.9);
-            opacity: 0.8;
-        }
-
-        /* 2. Tampa fechando */
-        .envelope-wrapper.animating .lid {
-            transform: rotateX(180deg);
-            z-index: 3;
-        }
-
-        /* 3. Selo aparecendo */
-        .envelope-wrapper.animating .seal {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* 4. Envelope disparando para cima */
-        .envelope-wrapper.fly-away {
-            animation: flyUp 0.7s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+        /* Keyframes */
+        @keyframes insertOrder {
+            0% { transform: translateY(0); opacity: 1; }
+            40% { transform: translateY(-60px); opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; z-index: 0; }
         }
 
         @keyframes flyUp {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-            30% {
-                transform: translateY(30px) scale(0.95);
-            }
-            100% {
-                transform: translateY(-120vh) scale(0.5);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            30% { transform: translateY(20px) scale(0.95); }
+            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; filter: blur(3px); }
         }
 
         /* --- RESPONSIVIDADE MOBILE --- */
@@ -589,13 +523,44 @@
             .market-section { margin-bottom: 3.5rem; }
             .products-grid { gap: 1.5rem; }
             .product-img-holder { height: 240px; }
-            .cart-sidebar { width: 100%; right: -100%; }
+            
+            /* Ajustes cruciais para que o carrinho ocupe toda a largura na tela mobile, sem sumir com o rodapé */
+            .cart-sidebar { 
+                width: 100%; 
+                right: -100%; 
+                border-left: none;
+            }
+            .cart-header {
+                padding: 1.2rem;
+            }
+            .cart-items-wrapper {
+                padding: 1.2rem;
+            }
+            .cart-footer {
+                padding: 1.2rem;
+                padding-bottom: calc(1.2rem + env(safe-area-inset-bottom)); /* Garante folga em iPhones modernos */
+            }
+            .checkout-btn {
+                padding: 14px;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="bg-lines"></div>
+
+    <div class="animation-overlay" id="animationOverlay">
+        <div class="mail-container" id="mailContainer">
+            <div class="order-sheet">
+                <div class="line purple-line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line short"></div>
+            </div>
+            <div class="envelope"></div>
+        </div>
+    </div>
 
     <header>
         <a href="index.html" class="back-home-btn" title="Voltar para Home">
@@ -624,22 +589,6 @@
             </div>
             <button class="checkout-btn" id="checkoutBtn">Finalizar Pedido</button>
         </div>
-    </div>
-
-    <div class="envelope-modal-overlay" id="envelopeOverlay">
-        <div class="envelope-wrapper" id="envelopeWrapper">
-            <div class="paper">
-                <div class="paper-header">// PEDIDO INFORTIX</div>
-                <div class="paper-line" style="width: 80%;"></div>
-                <div class="paper-line" style="width: 60%;"></div>
-                <div class="paper-line" style="width: 90%;"></div>
-                <div class="paper-line" style="width: 40%;"></div>
-            </div>
-            <div class="lid"></div>
-            <div class="pocket"></div>
-            <div class="seal"><i class="fa-solid fa-check"></i></div>
-        </div>
-        <div class="envelope-status-text" id="envelopeStatusText">Criptografando Pedido...</div>
     </div>
 
     <main>
@@ -746,13 +695,12 @@
         const cartSidebar = document.getElementById('cartSidebar');
         const cartOverlay = document.getElementById('cartOverlay');
         const checkoutBtn = document.getElementById('checkoutBtn');
+        
+        // Elementos da Animação
+        const animationOverlay = document.getElementById('animationOverlay');
+        const mailContainer = document.getElementById('mailContainer');
 
-        // ELEMENTOS DA ANIMAÇÃO DA CARTA
-        const envelopeOverlay = document.getElementById('envelopeOverlay');
-        const envelopeWrapper = document.getElementById('envelopeWrapper');
-        const envelopeStatusText = document.getElementById('envelopeStatusText');
-
-        // Alternadores do Carrinho
+        // Alternadores de Abertura/Fechamento da Interface Lateral
         openCartBtn.addEventListener('click', () => {
             cartSidebar.classList.add('open');
             cartOverlay.classList.add('visible');
@@ -766,13 +714,11 @@
         closeCartBtn.addEventListener('click', closeCart);
         cartOverlay.addEventListener('click', closeCart);
 
-        // Adicionar itens
         function addItemToCart(name, price) {
             cart.push({ name, price });
             updateCartUI();
         }
 
-        // Atualizar interface do carrinho
         function updateCartUI() {
             const countEl = document.getElementById('cartCount');
             const itemsContainer = document.getElementById('cartItemsContainer');
@@ -806,82 +752,55 @@
             totalEl.innerText = 'R$ ' + total;
         }
 
-        // Remover item
         function removeItemFromCart(index) {
             cart.splice(index, 1);
             updateCartUI();
         }
 
-        // LÓGICA DE FINALIZAÇÃO E ANIMAÇÃO
+        // LÓGICA DE INTEGRAÇÃO COM O WHATSAPP + PLAY NA ANIMAÇÃO HUD
         checkoutBtn.addEventListener('click', () => {
             if (cart.length === 0) {
                 alert("Seu carrinho está vazio! Adicione algum produto ou serviço antes de finalizar.");
                 return;
             }
 
-            // 1. Fecha o menu do carrinho lateral
-            closeCart();
-
-            // 2. Exibe o Overlay e inicia a sequência de animação
-            envelopeOverlay.classList.add('active');
-            envelopeStatusText.innerText = "Empacotando Pedido...";
-
-            // Inicia dobra do papel e fechamento da aba
-            setTimeout(() => {
-                envelopeWrapper.classList.add('animating');
-            }, 300);
-
-            // Troca de texto informando o envio
-            setTimeout(() => {
-                envelopeStatusText.innerText = "Selando & Despachando...";
-            }, 1200);
-
-            // Dispara o envelope voando para cima
-            setTimeout(() => {
-                envelopeWrapper.classList.add('fly-away');
-            }, 1800);
-
-            // Redireciona para o WhatsApp logo após o voo
-            setTimeout(() => {
-                // Monta mensagem do WhatsApp
-                let message = "Olá, INFORTIX! Gostaria de fechar um pedido através do Marketplace. Seguem os detalhes:\n\n";
-                message += "=============================\n";
-                
-                let total = 0;
-                const itemCounts = {};
-
-                cart.forEach(item => {
-                    if (itemCounts[item.name]) {
-                        itemCounts[item.name].quantity++;
-                        itemCounts[item.name].subtotal += item.price;
-                    } else {
-                        itemCounts[item.name] = { quantity: 1, price: item.price, subtotal: item.price };
-                    }
-                    total += item.price;
-                });
-
-                for (const [name, info] of Object.entries(itemCounts)) {
-                    message += `📦 *${name}* \n`;
-                    message += `   Qtd: ${info.quantity}x - R$ ${info.price} (Subtotal: R$ ${info.subtotal})\n\n`;
+            let message = "Olá, INFORTIX! Gostaria de fechar um pedido através do Marketplace. Seguem os detalhes:\n\n";
+            message += "=============================\n";
+            
+            let total = 0;
+            const itemCounts = {};
+            cart.forEach(item => {
+                if (itemCounts[item.name]) {
+                    itemCounts[item.name].quantity++;
+                    itemCounts[item.name].subtotal += item.price;
+                } else {
+                    itemCounts[item.name] = { quantity: 1, price: item.price, subtotal: item.price };
                 }
+                total += item.price;
+            });
 
-                message += "=============================\n";
-                message += `💰💵 *Valor Total do Pedido:* R$ ${total}\n\n`;
-                message += "Por favor, aguardo as instruções para o pagamento e liberação de acesso!";
+            for (const [name, info] of Object.entries(itemCounts)) {
+                message += `📦 *${name}* \n`;
+                message += `   Qtd: ${info.quantity}x - R$ ${info.price} (Subtotal: R$ ${info.subtotal})\n\n`;
+            }
 
-                const encodedText = encodeURIComponent(message);
-                const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
+            message += "=============================\n";
+            message += `💰💵 *Valor Total do Pedido:* R$ ${total}\n\n`;
+            message += "Por favor, aguardo as instruções para o pagamento e liberação de acesso!";
 
-                // Abre o WhatsApp
+            const encodedText = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
+
+            closeCart(); 
+            
+            animationOverlay.classList.add('active');
+            mailContainer.classList.add('start-anim');
+
+            setTimeout(() => {
                 window.open(whatsappUrl, '_blank');
-
-                // Reseta os estados da animação depois que a tela sai de foco
-                setTimeout(() => {
-                    envelopeOverlay.classList.remove('active');
-                    envelopeWrapper.classList.remove('animating', 'fly-away');
-                }, 500);
-
-            }, 2400);
+                animationOverlay.classList.remove('active');
+                mailContainer.classList.remove('start-anim');
+            }, 2300);
         });
     </script>
 </body>
