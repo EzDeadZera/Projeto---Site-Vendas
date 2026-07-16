@@ -326,7 +326,6 @@
             gap: 1.5rem;
         }
 
-        /* Mensagem quando o carrinho está vazio */
         .empty-cart-msg {
             text-align: center;
             color: rgba(207,207,207,0.4);
@@ -380,7 +379,6 @@
             filter: brightness(1.2);
         }
 
-        /* Fundo escuro quando o carrinho abre */
         .cart-overlay {
             position: fixed;
             top: 0;
@@ -397,6 +395,189 @@
         .cart-overlay.visible {
             opacity: 1;
             visibility: visible;
+        }
+
+        /* --- OVERLAY DE ANIMAÇÃO DO ENVELOPE --- */
+        .envelope-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(12, 13, 16, 0.92);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .envelope-modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .envelope-status-text {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--purple);
+            margin-top: 2rem;
+            text-shadow: 0 0 10px rgba(127, 73, 180, 0.5);
+            animation: textPulse 1s infinite alternate;
+        }
+
+        @keyframes textPulse {
+            from { opacity: 0.6; }
+            to { opacity: 1; filter: drop-shadow(0 0 8px var(--purple)); }
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            background-color: #181a20;
+            border-radius: 0 0 8px 8px;
+            border: 2px solid var(--purple);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(127, 73, 180, 0.3);
+        }
+
+        .envelope-wrapper .paper {
+            position: absolute;
+            top: 10px;
+            left: 5%;
+            width: 90%;
+            height: 160px;
+            background-color: #222530;
+            border: 1px dashed var(--purple);
+            border-radius: 4px;
+            padding: 12px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 1;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .paper-header {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            color: var(--purple);
+            border-bottom: 1px solid rgba(127, 73, 180, 0.3);
+            padding-bottom: 4px;
+        }
+
+        .paper-line {
+            height: 4px;
+            background-color: rgba(207, 207, 207, 0.2);
+            border-radius: 2px;
+            margin: 4px 0;
+        }
+
+        .envelope-wrapper .lid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid #20232c;
+            transform-origin: top;
+            transition: transform 0.6s ease 0.8s;
+            z-index: 3;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        .envelope-wrapper .lid::after {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -140px;
+            width: 0;
+            height: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid var(--purple);
+            opacity: 0.3;
+        }
+
+        .envelope-wrapper .pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 140px solid #16181f;
+            border-right: 140px solid #16181f;
+            border-bottom: 95px solid #1c1e27;
+            border-radius: 0 0 6px 6px;
+            z-index: 2;
+        }
+
+        .envelope-wrapper .seal {
+            position: absolute;
+            top: 70px;
+            left: calc(50% - 18px);
+            width: 36px;
+            height: 36px;
+            background: var(--purple);
+            border-radius: 50%;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.9rem;
+            box-shadow: 0 0 10px var(--purple);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s ease 1.3s;
+        }
+
+        /* --- CLASSES DE ANIMAÇÃO DISPARADAS PELO JS --- */
+        
+        /* 1. Folha descendo pra dentro da carta */
+        .envelope-wrapper.animating .paper {
+            transform: translateY(35px) scale(0.9);
+            opacity: 0.8;
+        }
+
+        /* 2. Tampa fechando */
+        .envelope-wrapper.animating .lid {
+            transform: rotateX(180deg);
+            z-index: 3;
+        }
+
+        /* 3. Selo aparecendo */
+        .envelope-wrapper.animating .seal {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* 4. Envelope disparando para cima */
+        .envelope-wrapper.fly-away {
+            animation: flyUp 0.7s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+        }
+
+        @keyframes flyUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            30% {
+                transform: translateY(30px) scale(0.95);
+            }
+            100% {
+                transform: translateY(-120vh) scale(0.5);
+                opacity: 0;
+            }
         }
 
         /* --- RESPONSIVIDADE MOBILE --- */
@@ -443,6 +624,22 @@
             </div>
             <button class="checkout-btn" id="checkoutBtn">Finalizar Pedido</button>
         </div>
+    </div>
+
+    <div class="envelope-modal-overlay" id="envelopeOverlay">
+        <div class="envelope-wrapper" id="envelopeWrapper">
+            <div class="paper">
+                <div class="paper-header">// PEDIDO INFORTIX</div>
+                <div class="paper-line" style="width: 80%;"></div>
+                <div class="paper-line" style="width: 60%;"></div>
+                <div class="paper-line" style="width: 90%;"></div>
+                <div class="paper-line" style="width: 40%;"></div>
+            </div>
+            <div class="lid"></div>
+            <div class="pocket"></div>
+            <div class="seal"><i class="fa-solid fa-check"></i></div>
+        </div>
+        <div class="envelope-status-text" id="envelopeStatusText">Criptografando Pedido...</div>
     </div>
 
     <main>
@@ -539,10 +736,9 @@
 
     <script>
         // CONFIGURAÇÕES GERAIS
-        // Insira o seu número do WhatsApp aqui (Exemplo: 55 + DDD + Numero completo, sem espaços ou traços)
         const WHATSAPP_PHONE = "554796339196"; 
 
-        // MECANISMO INTERNO DO CARRINHO (ESTRUTURA BASE DE DADOS EM MEMÓRIA)
+        // MECANISMO INTERNO DO CARRINHO
         let cart = [];
 
         const openCartBtn = document.getElementById('openCartBtn');
@@ -551,7 +747,12 @@
         const cartOverlay = document.getElementById('cartOverlay');
         const checkoutBtn = document.getElementById('checkoutBtn');
 
-        // Alternadores de Abertura/Fechamento da Interface Lateral
+        // ELEMENTOS DA ANIMAÇÃO DA CARTA
+        const envelopeOverlay = document.getElementById('envelopeOverlay');
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const envelopeStatusText = document.getElementById('envelopeStatusText');
+
+        // Alternadores do Carrinho
         openCartBtn.addEventListener('click', () => {
             cartSidebar.classList.add('open');
             cartOverlay.classList.add('visible');
@@ -565,13 +766,13 @@
         closeCartBtn.addEventListener('click', closeCart);
         cartOverlay.addEventListener('click', closeCart);
 
-        // Adicionar itens dinamicamente
+        // Adicionar itens
         function addItemToCart(name, price) {
             cart.push({ name, price });
             updateCartUI();
         }
 
-        // Atualizar o contador, somar preços e renderizar a lista
+        // Atualizar interface do carrinho
         function updateCartUI() {
             const countEl = document.getElementById('cartCount');
             const itemsContainer = document.getElementById('cartItemsContainer');
@@ -605,52 +806,82 @@
             totalEl.innerText = 'R$ ' + total;
         }
 
-        // Remover item específico da lista
+        // Remover item
         function removeItemFromCart(index) {
             cart.splice(index, 1);
             updateCartUI();
         }
 
-        // LÓGICA DE INTEGRAÇÃO COM O WHATSAPP ao fechar o pedido
+        // LÓGICA DE FINALIZAÇÃO E ANIMAÇÃO
         checkoutBtn.addEventListener('click', () => {
             if (cart.length === 0) {
                 alert("Seu carrinho está vazio! Adicione algum produto ou serviço antes de finalizar.");
                 return;
             }
 
-            // 1. Mensagem de introdução
-            let message = "Olá, INFORTIX! Gostaria de fechar um pedido através do Marketplace. Seguem os detalhes:\n\n";
-            message += "=============================\n";
-            
-            let total = 0;
+            // 1. Fecha o menu do carrinho lateral
+            closeCart();
 
-            // 2. Agrupar itens repetidos para exibir quantidade
-            const itemCounts = {};
-            cart.forEach(item => {
-                if (itemCounts[item.name]) {
-                    itemCounts[item.name].quantity++;
-                    itemCounts[item.name].subtotal += item.price;
-                } else {
-                    itemCounts[item.name] = { quantity: 1, price: item.price, subtotal: item.price };
+            // 2. Exibe o Overlay e inicia a sequência de animação
+            envelopeOverlay.classList.add('active');
+            envelopeStatusText.innerText = "Empacotando Pedido...";
+
+            // Inicia dobra do papel e fechamento da aba
+            setTimeout(() => {
+                envelopeWrapper.classList.add('animating');
+            }, 300);
+
+            // Troca de texto informando o envio
+            setTimeout(() => {
+                envelopeStatusText.innerText = "Selando & Despachando...";
+            }, 1200);
+
+            // Dispara o envelope voando para cima
+            setTimeout(() => {
+                envelopeWrapper.classList.add('fly-away');
+            }, 1800);
+
+            // Redireciona para o WhatsApp logo após o voo
+            setTimeout(() => {
+                // Monta mensagem do WhatsApp
+                let message = "Olá, INFORTIX! Gostaria de fechar um pedido através do Marketplace. Seguem os detalhes:\n\n";
+                message += "=============================\n";
+                
+                let total = 0;
+                const itemCounts = {};
+
+                cart.forEach(item => {
+                    if (itemCounts[item.name]) {
+                        itemCounts[item.name].quantity++;
+                        itemCounts[item.name].subtotal += item.price;
+                    } else {
+                        itemCounts[item.name] = { quantity: 1, price: item.price, subtotal: item.price };
+                    }
+                    total += item.price;
+                });
+
+                for (const [name, info] of Object.entries(itemCounts)) {
+                    message += `📦 *${name}* \n`;
+                    message += `   Qtd: ${info.quantity}x - R$ ${info.price} (Subtotal: R$ ${info.subtotal})\n\n`;
                 }
-                total += item.price;
-            });
 
-            // 3. Montar lista de produtos formatada
-            for (const [name, info] of Object.entries(itemCounts)) {
-                message += `📦 *${name}* \n`;
-                message += `   Qtd: ${info.quantity}x - R$ ${info.price} (Subtotal: R$ ${info.subtotal})\n\n`;
-            }
+                message += "=============================\n";
+                message += `💰💵 *Valor Total do Pedido:* R$ ${total}\n\n`;
+                message += "Por favor, aguardo as instruções para o pagamento e liberação de acesso!";
 
-            message += "=============================\n";
-            message += `💰 *Valor Total do Pedido:* R$ ${total}\n\n`;
-            message += "Por favor, aguardo as instruções para o pagamento e liberação de acesso!";
+                const encodedText = encodeURIComponent(message);
+                const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
 
-            // 4. Codificar a URL e abrir o WhatsApp
-            const encodedText = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${554796339196}?text=${encodedText}`;
+                // Abre o WhatsApp
+                window.open(whatsappUrl, '_blank');
 
-            window.open(whatsappUrl, '_blank');
+                // Reseta os estados da animação depois que a tela sai de foco
+                setTimeout(() => {
+                    envelopeOverlay.classList.remove('active');
+                    envelopeWrapper.classList.remove('animating', 'fly-away');
+                }, 500);
+
+            }, 2400);
         });
     </script>
 </body>
