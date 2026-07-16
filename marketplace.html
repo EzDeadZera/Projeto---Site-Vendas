@@ -764,6 +764,7 @@
                 return;
             }
 
+            // 1. Montagem da Mensagem usando formatação limpa
             let message = "Olá, INFORTIX! Gostaria de fechar um pedido através do Marketplace. Seguem os detalhes:\n\n";
             message += "=============================\n";
             
@@ -780,16 +781,17 @@
             });
 
             for (const [name, info] of Object.entries(itemCounts)) {
-                message += `📦 *${name}* \n`;
-                message += `   Qtd: ${info.quantity}x - R$ ${info.price} (Subtotal: R$ ${info.subtotal})\n\n`;
+                message += "📦 *" + name + "* \n";
+                message += "   Qtd: " + info.quantity + "x - R$ " + info.price + " (Subtotal: R$ " + info.subtotal + ")\n\n";
             }
 
             message += "=============================\n";
-            message += `💰💵 *Valor Total do Pedido:* R$ ${total}\n\n`;
+            message += "💰💵 *Valor Total do Pedido:* R$ " + total + "\n\n";
             message += "Por favor, aguardo as instruções para o pagamento e liberação de acesso!";
 
+            // 2. Codificação segura e uso do link universal de envio do WhatsApp (resolve o bug dos emojis)
             const encodedText = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodedText}`;
 
             closeCart(); 
             
@@ -802,6 +804,3 @@
                 mailContainer.classList.remove('start-anim');
             }, 2300);
         });
-    </script>
-</body>
-</html>
