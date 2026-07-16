@@ -269,14 +269,14 @@
             color: var(--black);
         }
 
-        /* --- ABA LATERAL DO CARRINHO (DRAWER AJUSTADA) --- */
+        /* --- ABA LATERAL DO CARRINHO (DRAWER) --- */
         .cart-sidebar {
             position: fixed;
             top: 0;
             right: -400px;
             width: 400px;
             height: 100%;
-            height: -webkit-fill-available; /* Evita que o menu suma no Safari Mobile */
+            height: -webkit-fill-available;
             max-height: 100vh;
             background-color: #0c0d10;
             border-left: 2px solid var(--purple);
@@ -285,7 +285,7 @@
             transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Garante que nada transborde da barra */
+            overflow: hidden;
         }
 
         .cart-sidebar.open {
@@ -298,7 +298,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-shrink: 0; /* Impede o header de encolher no mobile */
+            flex-shrink: 0;
         }
 
         .cart-header h3 {
@@ -328,10 +328,9 @@
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
-            -webkit-overflow-scrolling: touch; /* Rolar suave no iOS */
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* Mensagem quando o carrinho está vazio */
         .empty-cart-msg {
             text-align: center;
             color: rgba(207,207,207,0.4);
@@ -345,7 +344,7 @@
             padding: 1.5rem;
             border-top: 1px solid rgba(207,207,207,0.1);
             background-color: #111217;
-            flex-shrink: 0; /* Mantém o rodapé sempre no tamanho certo sem encolher */
+            flex-shrink: 0;
             margin-top: auto;
         }
 
@@ -476,7 +475,6 @@
             overflow: hidden;
         }
 
-        /* Detalhe triangular do envelope cortado */
         .envelope::before {
             content: '';
             position: absolute;
@@ -524,7 +522,6 @@
             .products-grid { gap: 1.5rem; }
             .product-img-holder { height: 240px; }
             
-            /* Ajustes cruciais para que o carrinho ocupe toda a largura na tela mobile, sem sumir com o rodapé */
             .cart-sidebar { 
                 width: 100%; 
                 right: -100%; 
@@ -538,7 +535,7 @@
             }
             .cart-footer {
                 padding: 1.2rem;
-                padding-bottom: calc(1.2rem + env(safe-area-inset-bottom)); /* Garante folga em iPhones modernos */
+                padding-bottom: calc(1.2rem + env(safe-area-inset-bottom));
             }
             .checkout-btn {
                 padding: 14px;
@@ -592,7 +589,6 @@
     </div>
 
     <main>
-        
         <section class="market-section">
             <div class="market-headline">
                 <h2>PRODUTOS EM DESTAQUE</h2>
@@ -680,7 +676,6 @@
                 </div>
             </div>
         </section>
-
     </main>
 
     <script>
@@ -764,7 +759,7 @@
                 return;
             }
 
-            // 1. Montagem da Mensagem usando formatação limpa
+            // 1. Montagem da Mensagem
             let message = "Olá, INFORTIX! Gostaria de fechar um pedido através do Marketplace. Seguem os detalhes:\n\n";
             message += "=============================\n";
             
@@ -789,12 +784,13 @@
             message += "💰💵 *Valor Total do Pedido:* R$ " + total + "\n\n";
             message += "Por favor, aguardo as instruções para o pagamento e liberação de acesso!";
 
-            // 2. Codificação segura e uso do link universal de envio do WhatsApp (resolve o bug dos emojis)
+            // 2. Link de Redirecionamento Universal
             const encodedText = encodeURIComponent(message);
             const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodedText}`;
 
             closeCart(); 
             
+            // Disparar a Animação
             animationOverlay.classList.add('active');
             mailContainer.classList.add('start-anim');
 
@@ -804,3 +800,6 @@
                 mailContainer.classList.remove('start-anim');
             }, 2300);
         });
+    </script>
+</body>
+</html>
