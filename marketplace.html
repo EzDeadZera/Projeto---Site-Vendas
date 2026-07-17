@@ -184,7 +184,7 @@
         .product-img-holder {
             width: 100%;
             height: 280px;
-            background-color: #121318;
+            background-color: #000000; /* Fundo preto puro para destacar a imagem inteira */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -196,12 +196,12 @@
         .product-img-holder img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* AJUSTE CRUCIAL: Mostra a imagem inteira com todos os textos sem cortar */
             transition: transform 0.5s ease;
         }
 
         .product-card:hover .product-img-holder img {
-            transform: scale(1.05);
+            transform: scale(1.02); /* Reduzido levemente para o zoom não cortar o texto no hover */
         }
 
         .product-badge {
